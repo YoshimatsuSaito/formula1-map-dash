@@ -6,17 +6,19 @@ import dash_html_components as html
 from plotly import graph_objects as go
 from dotenv import load_dotenv
 
+from modules.gp_info import SeasonInfo
 from modules.plot_circuit import plot_circuit
-from modules.geo import DICT_CIRCUIT_URL
+
 
 load_dotenv(".env")
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
-
+SEASON = 2023
 
 app = dash.Dash(__name__)
 fig = go.Figure()
-for circuit in DICT_CIRCUIT_URL.keys():
-    plot_circuit(fig, circuit)
+si = SeasonInfo(SEASON)
+for circuit_id in si.get_circuit_id():
+    plot_circuit(fig, circuit_id)
 
 fig.update_layout(
     title="F1 Circuits",
