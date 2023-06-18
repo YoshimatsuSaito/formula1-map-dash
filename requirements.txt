@@ -1,0 +1,7 @@
+dash
+dash-bootstrap-components
+openai
+jupyter-dash
+pandas
+python-dotenv
+scikit-learn
