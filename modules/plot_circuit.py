@@ -9,11 +9,11 @@ sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 from geo import CircuitGeo
 
 
-def plot_circuit(fig, circuit):
+def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprint, race, gp_name, url, **kwargs):
     """Plot a circuit on a mapbox figure."""
     circuit_geo = CircuitGeo()
 
-    lat_center, lon_center = circuit_geo.get_center(circuit)
+    lat_center, lon_center = circuit_geo.get_center(circuit_id)
     fig.add_trace(
         go.Scattermapbox(
             lat=[lat_center],
@@ -24,20 +24,38 @@ def plot_circuit(fig, circuit):
                 color="red",
                 sizemode="diameter",
             ),
-            customdata=[{"image": f"/assets/{circuit}.jpg", "text": f"{circuit}"}],
-            hovertemplate=f"{circuit}<extra></extra>"
+            customdata=[{
+                "fp1":fp1, 
+                "fp2":fp2,
+                "fp3":fp3,
+                "qualifying":qualifying, 
+                "sprint":sprint,
+                "race":race,
+                "gp_name":gp_name,
+                "url":url
+            }],
+            hovertemplate=f"{circuit_name}<extra></extra>"
         ),
     )
     
-    lat, lon = circuit_geo.get_lat_lon(circuit)
+    lat, lon = circuit_geo.get_lat_lon(circuit_id)
     fig.add_trace(
         go.Scattermapbox(
             lat=lat,
             lon=lon,
             mode="lines",
             line=dict(width=2, color="red"),
-            customdata=[{"image": f"/assets/{circuit}.jpg", "text": f"{circuit}"}] * len(lat),
-            hovertemplate=f"{circuit}<extra></extra>"
+            customdata=[{
+                "fp1":fp1, 
+                "fp2":fp2,
+                "fp3":fp3,
+                "qualifying":qualifying, 
+                "sprint":sprint,
+                "race":race,
+                "gp_name":gp_name,
+                "url":url
+            }] * len(lat),
+            hovertemplate=f"{circuit_name}<extra></extra>"
         )
     )
     

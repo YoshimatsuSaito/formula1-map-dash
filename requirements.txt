@@ -3,6 +3,8 @@ dash-bootstrap-components
 ergast-py
 openai
 jupyter-dash
+jupyterlab
+notebook
 pandas
 python-dotenv
 scikit-learn
