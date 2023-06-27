@@ -23,8 +23,9 @@ def plot_circuit(fig, circuit):
                 size=10,
                 color="red",
                 sizemode="diameter",
-                opacity=0.5
-            )
+            ),
+            customdata=[{"image": f"/assets/{circuit}.jpg", "text": f"{circuit}"}],
+            hovertemplate=f"{circuit}<extra></extra>"
         ),
     )
     
@@ -34,8 +35,9 @@ def plot_circuit(fig, circuit):
             lat=lat,
             lon=lon,
             mode="lines",
-            text=circuit,
             line=dict(width=2, color="red"),
+            customdata=[{"image": f"/assets/{circuit}.jpg", "text": f"{circuit}"}] * len(lat),
+            hovertemplate=f"{circuit}<extra></extra>"
         )
     )
     
