@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  app:
+    image: f1mapdash
+    build: .
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes:
+      - .:/app
