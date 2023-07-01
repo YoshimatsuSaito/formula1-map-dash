@@ -1,4 +1,5 @@
 import pytz
+from datetime import datetime
 from ergast_py import Ergast
 
 import pandas as pd
@@ -44,6 +45,21 @@ class SeasonInfo:
         """Get url of the season"""
         return [x.url for x in self.season_info]
 
+    def get_latitude(self):
+        """Get latitude of each grand prix"""
+        return [x.circuit.location.latitude for x in self.season_info]
+
+    def get_longtiude(self):
+        """Get longitude of each grand prix"""
+        return [x.circuit.location.longitude for x in self.season_info]
+
+    def get_latest_gp_index(self, timezone=japan_timezone):
+        """Get index of latest grand prix"""
+        today = datetime.now(timezone)
+        list_date = [x.date.astimezone(timezone) for x in self.season_info]
+        latest_gp_date = min(x for x in list_date if x >= today)
+        return list_date.index(latest_gp_date)
+
     def get_df_all_info(self):
         """Get all information"""
         return pd.DataFrame({
@@ -57,4 +73,6 @@ class SeasonInfo:
             "race": self.get_event_time(event="race"),
             "gp_name": self.get_gp_name(),
             "url": self.get_url(),
+            "lat": self.get_latitude(),
+            "lon": self.get_longtiude(),
         })

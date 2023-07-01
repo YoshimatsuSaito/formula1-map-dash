@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 from geo import CircuitGeo
 
 
-def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprint, race, gp_name, url, **kwargs):
+def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprint, race, gp_name, url, color, showlegend=False, name=None, **kwargs):
     """Plot a circuit on a mapbox figure."""
     circuit_geo = CircuitGeo()
 
@@ -21,7 +21,7 @@ def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprin
             mode="markers",
             marker=dict(
                 size=10,
-                color="red",
+                color=color,
                 sizemode="diameter",
             ),
             customdata=[{
@@ -34,7 +34,9 @@ def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprin
                 "gp_name":gp_name,
                 "url":url
             }],
-            hovertemplate=f"{circuit_name}<extra></extra>"
+            hovertemplate=f"{circuit_name}<extra></extra>",
+            name=name,
+            showlegend=showlegend,
         ),
     )
     
@@ -44,7 +46,7 @@ def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprin
             lat=lat,
             lon=lon,
             mode="lines",
-            line=dict(width=2, color="red"),
+            line=dict(width=2, color=color),
             customdata=[{
                 "fp1":fp1, 
                 "fp2":fp2,
@@ -55,7 +57,8 @@ def plot_circuit(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprin
                 "gp_name":gp_name,
                 "url":url
             }] * len(lat),
-            hovertemplate=f"{circuit_name}<extra></extra>"
+            hovertemplate=f"{circuit_name}<extra></extra>",
+            showlegend=False,
         )
     )
     
