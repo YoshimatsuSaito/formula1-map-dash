@@ -57,6 +57,35 @@ def create_main_figure(df, latest_gp_index, latest_gp_legend):
     return fig
 
 
+def create_circuit_figure(latest_gp_index, df, map_style, hoverData):
+    """Create the circuit figure."""
+    lat_center = hoverData["points"][0]["customdata"]["lat_center"]
+    lon_center = hoverData["points"][0]["customdata"]["lon_center"]
+
+    fig_circuit = go.Figure()
+    for idx, row in enumerate(df.itertuples()):
+        if idx == latest_gp_index:
+            color = "red"
+        else:
+            color = "blue"
+        plot_circuit_location(fig=fig_circuit, color=color, **row._asdict())
+        plot_circuit_shape(fig=fig_circuit, color=color, **row._asdict())
+
+    fig_circuit.update_layout(
+        autosize=True,
+        mapbox=dict(
+            accesstoken=MAPBOX_TOKEN,
+            bearing=0,
+            style=map_style,
+            center=dict(lat=lat_center, lon=lon_center),
+            pitch=0,
+            zoom=12,
+        ),
+        margin=dict(l=2, t=0, b=0),
+    )
+    return fig_circuit
+
+
 def plot_circuit_location(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprint, race, gp_name, url, color, showlegend=False, name=None, **kwargs):
     """Plot a circuit location on a mapbox figure."""
     circuit_geo = CircuitGeo()

@@ -4,16 +4,11 @@ import sys
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-from dotenv import load_dotenv
-from plotly import graph_objects as go
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 
-from plotting import plot_circuit_location, plot_circuit_shape
-
-load_dotenv(".env")
-MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
+from plotting import create_circuit_figure
 
 
 def register_callbacks(app, df, latest_gp_index):
@@ -25,30 +20,8 @@ def register_callbacks(app, df, latest_gp_index):
         Input("map", "clickData")],
     )
     def update_circuit_figure(map_style, hoverData):
-        lat_center = hoverData["points"][0]["customdata"]["lat_center"]
-        lon_center = hoverData["points"][0]["customdata"]["lon_center"]
-
-        fig_circuit = go.Figure()
-        for idx, row in enumerate(df.itertuples()):
-            if idx == latest_gp_index:
-                color = "red"
-            else:
-                color = "blue"
-            plot_circuit_location(fig=fig_circuit, color=color, **row._asdict())
-            plot_circuit_shape(fig=fig_circuit, color=color, **row._asdict())
-
-        fig_circuit.update_layout(
-            autosize=True,
-            mapbox=dict(
-                accesstoken=MAPBOX_TOKEN,
-                bearing=0,
-                style=map_style,
-                center=dict(lat=lat_center, lon=lon_center),
-                pitch=0,
-                zoom=12,
-            ),
-            margin=dict(l=2, t=0, b=0),
-        )
+        """Update the circuit figure."""
+        fig_circuit = create_circuit_figure(latest_gp_index, df, map_style, hoverData)
         return fig_circuit
 
 
