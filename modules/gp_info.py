@@ -1,8 +1,16 @@
+import os
 import pytz
+import sys
 from datetime import datetime
 from ergast_py import Ergast
 
 import pandas as pd
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
+
+# TODO: use this
+from geo import CircuitGeo
 
 japan_timezone = pytz.timezone('Asia/Tokyo')
 

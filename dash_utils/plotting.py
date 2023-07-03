@@ -1,5 +1,6 @@
 import os
 import sys
+from math import log
 
 from plotly import graph_objects as go
 from dotenv import load_dotenv
@@ -13,6 +14,19 @@ from geo import CircuitGeo
 
 load_dotenv(".env")
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
+
+
+# def calc_zoom(lat, lon):
+#     """Calculate the zoom level for a mapbox figure."""
+#     max_bound = (
+#         max(
+#             abs(lat.max() - lat.min()),
+#             abs(lon.max() - lon.min()),
+#         )
+#         * 111
+#     )
+#     zoom = 13.5 - log(max_bound)
+#     return zoom
 
 
 def create_main_figure(df, latest_gp_index, latest_gp_legend):
@@ -57,10 +71,10 @@ def create_main_figure(df, latest_gp_index, latest_gp_legend):
     return fig
 
 
-def create_circuit_figure(latest_gp_index, df, map_style, hoverData):
+def create_circuit_figure(latest_gp_index, df, map_style, clickData):
     """Create the circuit figure."""
-    lat_center = hoverData["points"][0]["customdata"]["lat_center"]
-    lon_center = hoverData["points"][0]["customdata"]["lon_center"]
+    lat_center = clickData["points"][0]["customdata"]["lat_center"]
+    lon_center = clickData["points"][0]["customdata"]["lon_center"]
 
     fig_circuit = go.Figure()
     for idx, row in enumerate(df.itertuples()):

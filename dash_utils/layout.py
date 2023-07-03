@@ -8,24 +8,46 @@ def get_layout(fig, SEASON):
         style={"display": "flex", "flex-direction": "column"},
         children=[
             html.Div(
-                style={"height": "18vh"},
+                style={"height": "20vh", "margin-bottom": "0px"},
                 children=[
-                    html.H1(f"FIA Formula One World Championship {SEASON}", style={"font-family": "Russo One", "padding": "0px", "margin-bottom": "0px", "margin-left": "5%"}),
-                    html.H5("Click a point and see information about the grand prix", style={"font-family": "Russo One", "padding": "0px", "margin-bottom": "0px",  "margin-top": "0px", "margin-left": "5%"})
+                    html.H1(
+                        f"FIA Formula One World Championship {SEASON}", 
+                        style={
+                            "height": "60%", 
+                            "font-family": "Russo One", 
+                            "padding": "0px", 
+                            "margin-bottom": "0px", 
+                            "margin-left": "5%",
+                            "font-size": "2vw",
+                        }
+                    ),
+                    html.H5(
+                        "Click a point and see information about the grand prix", 
+                        style={
+                            "height": "40%", 
+                            "font-family": "Russo One", 
+                            "padding": "0px", 
+                            "margin-bottom": "0px",  
+                            "margin-top": "0px", 
+                            "margin-left": "5%",
+                            "font-size": "1vw",
+                        }
+                    )
                 ]
             ),
             html.Div(
-                style={"display": "flex", "flex-direction": "row", "height": "82vh"},
+                className="responsive-div",
+                style={"display": "flex", "flex-direction": "row", "height": "80vh", "margin-top": "0px"},
                 children=[
                     dcc.Graph(
                         id="map",
                         config={"displayModeBar": False},
                         figure=fig,
-                        style={"height": "100%", "flex": "60%"}
+                        style={"height": "100%", "flex": "50%"}
                     ),
                     html.Div(
                         id="hover-data",
-                        style={"flex": "40%", "height": "100%"}
+                        style={"flex": "50%", "height": "100%"}
                     )
                 ]
             ),
