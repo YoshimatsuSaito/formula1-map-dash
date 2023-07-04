@@ -33,15 +33,21 @@ def create_main_figure(df, latest_gp_index, latest_gp_legend):
     """Create the main figure."""
     fig = go.Figure()
 
+    cnt = 0
     for idx, row in enumerate(df.itertuples()):
         if idx == latest_gp_index:
             color = "red"
             showlegend = True
-            name = latest_gp_legend
+            name = f"Next: {latest_gp_legend}"
+        elif cnt == 0:
+            color = "blue"
+            showlegend = True
+            name = "Grand Prix"
+            cnt = -1
         else:
             color = "blue"
             showlegend = False
-            name = "None"
+            name = None
         plot_circuit_location(fig=fig, color=color, showlegend=showlegend, name=name, **row._asdict())
         plot_circuit_shape(fig=fig, color=color, **row._asdict())
 
@@ -49,6 +55,7 @@ def create_main_figure(df, latest_gp_index, latest_gp_legend):
     center_lon = df.loc[latest_gp_index, "lon"]
 
     fig.update_layout(
+        title="Grand prix map",
         autosize=True,
         hovermode="closest",
         mapbox=dict(
@@ -59,12 +66,14 @@ def create_main_figure(df, latest_gp_index, latest_gp_legend):
             pitch=0,
             zoom=1,
         ),
-        margin=dict(r=5, t=5),
+        margin=dict(r=0, t=0, l=0, b=0),
         legend=dict(
-            x=0.5,
-            y=-0.1,
-            xanchor="center",
-            yanchor="bottom",
+            x=1,
+            y=1,
+            xanchor="right",
+            yanchor="top",
+            bgcolor="rgba(60, 60, 60, 0.5)",
+            font=dict(color="black", family="Russo One")
         )
     )
 
@@ -80,9 +89,13 @@ def create_circuit_figure(latest_gp_index, df, map_style, clickData):
     for idx, row in enumerate(df.itertuples()):
         if idx == latest_gp_index:
             color = "red"
+            showlegend=True
+            name=f"{row.circuit_name}"
         else:
             color = "blue"
-        plot_circuit_location(fig=fig_circuit, color=color, **row._asdict())
+            showlegend=False
+            name=None
+        plot_circuit_location(fig=fig_circuit, color=color, showlegend=showlegend, name=name, **row._asdict())
         plot_circuit_shape(fig=fig_circuit, color=color, **row._asdict())
 
     fig_circuit.update_layout(
@@ -95,7 +108,15 @@ def create_circuit_figure(latest_gp_index, df, map_style, clickData):
             pitch=0,
             zoom=12,
         ),
-        margin=dict(l=2, t=0, b=0),
+        margin=dict(l=0, t=0, b=0, r=0),
+        legend=dict(
+            x=1,
+            y=1,
+            xanchor="right",
+            yanchor="top",
+            bgcolor="rgba(60, 60, 60, 0.5)",
+            font=dict(color="black", family="Russo One")
+        )
     )
     return fig_circuit
 
@@ -126,15 +147,16 @@ def plot_circuit_location(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifyi
                 "url":url,
                 "lat_center":lat_center,
                 "lon_center":lon_center,
+                "circuit": circuit_name,
             }],
-            hovertemplate=f"{circuit_name}<extra></extra>",
+            hovertemplate=f"{gp_name}<extra></extra>",
             name=name,
             showlegend=showlegend,
         ),
     )
 
 
-def plot_circuit_shape(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprint, race, gp_name, url, color, **kwargs):
+def plot_circuit_shape(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying, sprint, race, gp_name, url, color, showlegend=False, name=None, **kwargs):
     """Plot a circuit shape on a mapbox figure."""
     circuit_geo = CircuitGeo()
 
@@ -157,8 +179,10 @@ def plot_circuit_shape(fig, circuit_id, circuit_name, fp1, fp2, fp3, qualifying,
                 "url":url,
                 "lat_center":lat_center,
                 "lon_center":lon_center,
+                "circuit": circuit_name,
             }] * len(lat),
-            hovertemplate=f"{circuit_name}<extra></extra>",
-            showlegend=False,
+            hovertemplate=f"{gp_name}<extra></extra>",
+            name=name,
+            showlegend=showlegend,
         )
     )

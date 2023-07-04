@@ -43,20 +43,22 @@ def register_callbacks(app, df, latest_gp_index, default_clickdata):
         race = clickData["points"][0]["customdata"]["race"]
         gp_name = clickData["points"][0]["customdata"]["gp_name"]
         url = clickData["points"][0]["customdata"]["url"]
+        circuit = clickData["points"][0]["customdata"]["circuit"]
         return [
             html.Div([
-                html.Div(f"{gp_name}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
-                html.Div(f"FP1: {fp1}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
-                html.Div(f"FP2: {fp2}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
-                html.Div(f"FP3: {fp3}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
-                html.Div(f"Qualifying: {qualifying}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
-                html.Div(f"Sprint: {sprint}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
-                html.Div(f"Race: {race}", style={"font-family": "Russo One", "height": "5%", "font-size": "1vw"}),
+                html.Div(f"{gp_name}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"Circuit: {circuit}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"FP1: {fp1}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"FP2: {fp2}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"FP3: {fp3}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"Qualifying: {qualifying}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"Sprint: {sprint}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"Race: {race}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
                 dcc.Graph(
                         id="map_circuit",
                         config={"displayModeBar": False},
                         figure={},
-                        style={"height": "50%", "width": "100%"},
+                        style={"height": "50%", "width": "100%", "margin-top": "3%"},
                     ),
                 dcc.RadioItems(
                     id='map-style-radio',
@@ -65,10 +67,11 @@ def register_callbacks(app, df, latest_gp_index, default_clickdata):
                         {'label': 'Satellite', 'value': 'satellite'},
                     ],
                     value='streets',
-                    labelStyle={"display": "inline-block", "font-size": "1vw"},
-                    style={"height": "5%"}
+                    labelStyle={"display": "inline-block"},
+                    style={"height": "5%"},
+                    className="data-content"
                 )
-            ], style={"overflow": "auto", "height": "100%", "padding-top": "0%"})
+            ], style={"overflow": "auto", "height": "100%"})
         ]
 
 
@@ -85,6 +88,7 @@ def create_default_clickdata(data4app):
                     "sprint": data4app.df.iloc[data4app.latest_gp_index]["sprint"],
                     "race": data4app.df.iloc[data4app.latest_gp_index]["race"],
                     "gp_name": data4app.df.iloc[data4app.latest_gp_index]["gp_name"],
+                    "circuit": data4app.df.iloc[data4app.latest_gp_index]["circuit_name"],
                     "url": data4app.df.iloc[data4app.latest_gp_index]["url"],
                     "lat_center": data4app.df.iloc[data4app.latest_gp_index]["lat"],
                     "lon_center": data4app.df.iloc[data4app.latest_gp_index]["lon"],

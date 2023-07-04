@@ -21,4 +21,4 @@ default_clickdata = create_default_clickdata(data4app)
 register_callbacks(app, data4app.df, data4app.latest_gp_index, default_clickdata)
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8080, host="0.0.0.0")

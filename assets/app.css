@@ -3,3 +3,23 @@
       flex-direction: column !important;
     }
   }
+  
+/* Mobile devices (width under 767px) */
+@media only screen and (max-width: 767px) {
+    .my-title {
+        font-size: 20px;  /* Change this value to what works for you */
+    }
+    .data-content {
+        font-size: 14px;  /* Change this value to what works for you */
+    }
+}
+
+/* Desktop devices (width over 768px) */
+@media only screen and (min-width: 768px) {
+    .my-title {
+        font-size: 3vw;
+    }
+    .data-content {
+        font-size: 1vw;
+    }
+}

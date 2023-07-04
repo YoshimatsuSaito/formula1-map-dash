@@ -8,56 +8,66 @@ def get_layout(fig, SEASON):
         style={"display": "flex", "flex-direction": "column"},
         children=[
             html.Div(
-                style={"height": "20vh", "margin-bottom": "0px"},
+                style={"height": "15vh", "margin-bottom": "0px"},
                 children=[
                     html.H1(
                         f"FIA Formula One World Championship {SEASON}", 
+                        className="my-title",
                         style={
-                            "height": "60%", 
+                            "height": "100%", 
                             "font-family": "Russo One", 
-                            "padding": "0px", 
-                            "margin-bottom": "0px", 
-                            "margin-left": "5%",
-                            "font-size": "2vw",
+                            "margin-top": "3%", 
+                            "margin-bottom": "0%", 
+                            "margin-left": "3%",
                         }
                     ),
-                    html.H5(
-                        "Click a point and see information about the grand prix", 
-                        style={
-                            "height": "40%", 
-                            "font-family": "Russo One", 
-                            "padding": "0px", 
-                            "margin-bottom": "0px",  
-                            "margin-top": "0px", 
-                            "margin-left": "5%",
-                            "font-size": "1vw",
-                        }
-                    )
                 ]
             ),
             html.Div(
                 className="responsive-div",
-                style={"display": "flex", "flex-direction": "row", "height": "80vh", "margin-top": "0px"},
+                style={
+                    "display": "flex", 
+                    "flex-direction": "row", 
+                    "height": "80vh", 
+                    "margin-top": "3%", 
+                    "margin-bottom": "3%", 
+                    "margin-left": "3%",
+                    "margin-right": "3%",
+                },
                 children=[
                     dcc.Graph(
                         id="map",
                         config={"displayModeBar": False},
                         figure=fig,
-                        style={"height": "100%", "flex": "50%"}
+                        style={
+                            "flex": "50%",
+                            "height": "100%", 
+                            "margin-top": "3%", 
+                            "margin-bottom": "3%", 
+                            "margin-left": "3%",
+                            "margin-right": "3%",
+                        }
                     ),
                     html.Div(
                         id="hover-data",
-                        style={"flex": "50%", "height": "100%"}
+                        style={
+                            "flex": "50%", 
+                            "height": "100%",
+                            "margin-top": "3%", 
+                            "margin-bottom": "3%", 
+                            "margin-left": "3%",
+                            "margin-right": "3%",
+                        }
                     )
                 ]
             ),
-            html.Div(
-                id="new-div",
-                children=[
-                    html.Iframe(src="https://en.wikipedia.org/wiki/2023_Austrian_Grand_Prix", style={"height": "100vh", "width": "100vw"}),
-                ],
-                style={"height": "100vh", "width": "100vw"}
-            ),
+            # html.Div(
+            #     id="new-div",
+            #     children=[
+            #         html.Iframe(src="https://en.wikipedia.org/wiki/2023_Austrian_Grand_Prix", style={"height": "100vh", "width": "100vw"}),
+            #     ],
+            #     style={"height": "100vh", "width": "100vw"}
+            # ),
         ]
     )
 
