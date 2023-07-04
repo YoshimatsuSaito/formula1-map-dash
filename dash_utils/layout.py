@@ -29,7 +29,7 @@ def get_layout(fig, SEASON):
                     "display": "flex", 
                     "flex-direction": "row", 
                     "height": "80vh", 
-                    "margin-top": "3%", 
+                    "margin-top": "0%", 
                     "margin-bottom": "3%", 
                     "margin-left": "3%",
                     "margin-right": "3%",
