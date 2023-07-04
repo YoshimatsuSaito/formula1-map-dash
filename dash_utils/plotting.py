@@ -90,7 +90,7 @@ def create_circuit_figure(latest_gp_index, df, map_style, clickData):
         if idx == latest_gp_index:
             color = "red"
             showlegend=True
-            name=f"{row.circuit_name}"
+            name="Circuit layout"
         else:
             color = "blue"
             showlegend=False
