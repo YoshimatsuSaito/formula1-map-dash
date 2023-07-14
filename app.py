@@ -1,4 +1,5 @@
 import dash
+import dash_bootstrap_components as dbc
 
 from dash_utils.layout import get_layout
 from dash_utils.data import create_data
@@ -9,6 +10,7 @@ SEASON = 2023
 external_stylesheets = [
     "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap",
     "app.css",
+    dbc.themes.BOOTSTRAP
 ]
 
 

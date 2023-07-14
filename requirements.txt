@@ -1,10 +1,13 @@
 dash
 dash-bootstrap-components
 ergast-py
+lightgbm
 openai
 jupyter-dash
 jupyterlab
 notebook
+numpy
 pandas
 python-dotenv
 scikit-learn
+scipy
