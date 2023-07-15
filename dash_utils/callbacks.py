@@ -45,14 +45,17 @@ def register_page1_callbacks(app, data4app):
         circuit = clickData["points"][0]["customdata"]["circuit"]
         return [
             html.Div([
-                html.Div(f"{gp_name}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"Circuit: {circuit}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"FP1: {fp1}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"FP2: {fp2}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"FP3: {fp3}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"Qualifying: {qualifying}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"Sprint: {sprint}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
-                html.Div(f"Race: {race}", style={"font-family": "Russo One", "height": "5%"}, className="data-content"),
+                html.Div(f"{gp_name}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"Circuit: {circuit}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"FP1: {fp1}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"FP2: {fp2}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"FP3: {fp3}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"Qualifying: {qualifying}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"Sprint: {sprint}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                html.Div(f"Race: {race}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
+                dcc.Link("View Predictions / Results", href="/Prediction", style={"height": "4%"}),
+                html.Br(),
+                dcc.Link("Go to strategy simulator", href="/Strategy", style={"height": "4%"}),
                 dcc.Graph(
                         id="map_circuit",
                         config={"displayModeBar": False},
@@ -60,12 +63,12 @@ def register_page1_callbacks(app, data4app):
                         style={"height": "50%", "width": "100%", "margin-top": "3%"},
                     ),
                 dcc.RadioItems(
-                    id='map-style-radio',
+                    id="map-style-radio",
                     options=[
-                        {'label': 'Streets', 'value': 'streets'},
-                        {'label': 'Satellite', 'value': 'satellite'},
+                        {"label": "Streets", "value": "streets"},
+                        {"label": "Satellite", "value": "satellite"},
                     ],
-                    value='streets',
+                    value="streets",
                     labelStyle={"display": "inline-block"},
                     style={"height": "5%"},
                     className="data-content"

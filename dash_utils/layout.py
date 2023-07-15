@@ -14,7 +14,7 @@ from components import get_number_input
 def get_page1_layout(fig, SEASON):
     """Get the layout of the app."""
     return html.Div(
-        style={"display": "flex", "flex-direction": "column", "height": "100vh", "overflow": "auto"},
+        style={"display": "flex", "flex-direction": "column", "height": "110vh", "overflow": "auto"},
         children=[
             html.Div(
                 style={"height": "15vh", "margin-bottom": "0px"},
@@ -97,7 +97,8 @@ def get_page2_layout():
                     dbc.Col([get_number_input("Medium-Degradation")], width=2),
                     dbc.Col([get_number_input("Hard-Degradation")], width=2),
                 ])
-            ])
+            ]),
+            dcc.Link("Back to Home", href="/")
         ],
         style={
             "height": "30vh",

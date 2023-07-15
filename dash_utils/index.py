@@ -16,5 +16,10 @@ def register_index_callback(app, fig, SEASON):
     def display_page(pathname):
         if pathname == "/Strategy":
             return get_page2_layout()
+        elif pathname == "/Prediction":
+            return html.Div(children=[
+                html.Div("Prediction"),
+                dcc.Link("Back to Home", href="/")
+            ])
         else:
             return get_page1_layout(fig, SEASON)
