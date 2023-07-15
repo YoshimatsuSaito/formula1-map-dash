@@ -20,6 +20,7 @@ class SeasonInfo:
     def __init__(self, season):
         self.ergast = Ergast()
         self.season_info = self.ergast.season(season).get_races()
+        self.season = season
     
     def get_circuit_id(self):
         """Get circuit id of the season"""

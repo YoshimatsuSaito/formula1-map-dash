@@ -1,26 +1,35 @@
 import dash
 import dash_bootstrap_components as dbc
+from dash import dcc, html
 
-from dash_utils.layout import get_layout
-from dash_utils.data import create_data
-from dash_utils.callbacks import register_callbacks, create_default_clickdata
+from dash_utils.index import register_index_callback
 from dash_utils.plotting import create_main_figure
+from dash_utils.data import create_data
+from dash_utils.callbacks import register_page1_callbacks
 
-SEASON = 2023
+
+# Set information
 external_stylesheets = [
     "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap",
     "app.css",
     dbc.themes.BOOTSTRAP
 ]
-
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
-
-data4app = create_data()
+SEASON = 2023
+data4app = create_data(SEASON)
 fig = create_main_figure(data4app.df, data4app.latest_gp_index, data4app.latest_gp_legend)
-app.layout = get_layout(fig, SEASON)
-default_clickdata = create_default_clickdata(data4app)
-register_callbacks(app, data4app.df, data4app.latest_gp_index, default_clickdata)
 
+# Create an app
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
+app.layout = html.Div([
+    dcc.Location(id="url", refresh=False),
+    html.Div(id="page-content")
+])
+
+# Register callback
+register_index_callback(app, fig, SEASON)
+register_page1_callbacks(app, data4app)
+
+
+# Run the app
 if __name__ == "__main__":
     app.run_server(debug=True, port=8080, host="0.0.0.0")

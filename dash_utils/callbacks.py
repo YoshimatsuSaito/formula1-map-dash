@@ -1,8 +1,7 @@
 import os
 import sys
 
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc, html
 from dash.dependencies import Input, Output
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -11,7 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 from plotting import create_circuit_figure
 
 
-def register_callbacks(app, df, latest_gp_index, default_clickdata):
+def register_page1_callbacks(app, data4app):
     """Register callbacks for the app."""
 
     @app.callback(
@@ -22,8 +21,8 @@ def register_callbacks(app, df, latest_gp_index, default_clickdata):
     def update_circuit_figure(map_style, clickData):
         """Update the circuit figure."""
         if clickData is None:
-            clickData = default_clickdata
-        fig_circuit = create_circuit_figure(latest_gp_index, df, map_style, clickData)
+            clickData = data4app.default_clickdata
+        fig_circuit = create_circuit_figure(data4app.latest_gp_index, data4app.df, map_style, clickData)
         return fig_circuit
 
 
@@ -33,7 +32,7 @@ def register_callbacks(app, df, latest_gp_index, default_clickdata):
     )
     def update_hover_data(clickData):
         if clickData is None:
-            clickData = default_clickdata
+            clickData = data4app.default_clickdata
 
         fp1 = clickData["points"][0]["customdata"]["fp1"]
         fp2 = clickData["points"][0]["customdata"]["fp2"]
@@ -73,26 +72,4 @@ def register_callbacks(app, df, latest_gp_index, default_clickdata):
                 )
             ], style={"overflow": "auto", "height": "100%"})
         ]
-
-
-def create_default_clickdata(data4app):
-    """Create default clickdata for the app."""
-    return {
-        "points": [
-            {
-                "customdata": {
-                    "fp1": data4app.df.iloc[data4app.latest_gp_index]["fp1"],
-                    "fp2": data4app.df.iloc[data4app.latest_gp_index]["fp2"],
-                    "fp3": data4app.df.iloc[data4app.latest_gp_index]["fp3"],
-                    "qualifying": data4app.df.iloc[data4app.latest_gp_index]["qualifying"],
-                    "sprint": data4app.df.iloc[data4app.latest_gp_index]["sprint"],
-                    "race": data4app.df.iloc[data4app.latest_gp_index]["race"],
-                    "gp_name": data4app.df.iloc[data4app.latest_gp_index]["gp_name"],
-                    "circuit": data4app.df.iloc[data4app.latest_gp_index]["circuit_name"],
-                    "url": data4app.df.iloc[data4app.latest_gp_index]["url"],
-                    "lat_center": data4app.df.iloc[data4app.latest_gp_index]["lat"],
-                    "lon_center": data4app.df.iloc[data4app.latest_gp_index]["lon"],
-                }
-            }
-        ]
-    }
+    
