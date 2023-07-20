@@ -12,9 +12,9 @@ from components import get_number_input
 
 
 def get_page1_layout(fig, SEASON):
-    """Get the layout of the app."""
+    """Get the layout of page1."""
     return html.Div(
-        style={"display": "flex", "flex-direction": "column", "height": "110vh", "overflow": "auto"},
+        style={"display": "flex", "flex-direction": "column", "height": "95vh", "overflow": "auto"},
         children=[
             html.Div(
                 style={"height": "15vh", "margin-bottom": "0px"},
@@ -74,38 +74,75 @@ def get_page1_layout(fig, SEASON):
     )
 
 
-def get_page2_layout():
+def get_page2_layout(total_laps=50, pitloss=20, soft_pace=90, medium_degradation=0.05):
+    """Get the layout of page2"""
     return html.Div(
-        id="strategy",
+        style={"display": "flex", "flex-direction": "column", "height": "95vh", "overflow": "auto", "margin-top": "10vh"},
         children=[
-            dbc.Container(fluid=True, children=[
-                dbc.Row(justify="center", align="center", children=[
-                    dbc.Col(html.Div(), width=1),
-                    dbc.Col(html.Label("Soft"), width=2),
-                    dbc.Col(html.Label("Medium"), width=2),
-                    dbc.Col(html.Label("Hard"), width=2),
-                ]),
-                dbc.Row(justify="center", align="center", children=[
-                    dbc.Col([html.Label("Pace")], width=1),
-                    dbc.Col([get_number_input("Soft-Pace")], width=2),
-                    dbc.Col([get_number_input("Medium-Pace")], width=2),
-                    dbc.Col([get_number_input("Hard-Pace")], width=2),
-                ]),
-                dbc.Row(justify="center", align="center", children=[
-                    dbc.Col([html.Label("Degradation")], width=1),
-                    dbc.Col([get_number_input("Soft-Degradation")], width=2),
-                    dbc.Col([get_number_input("Medium-Degradation")], width=2),
-                    dbc.Col([get_number_input("Hard-Degradation")], width=2),
-                ])
-            ]),
-            dcc.Link("Back to Home", href="/")
-        ],
-        style={
-            "height": "30vh",
-            "margin-top": "3%", 
-            "margin-bottom": "3%", 
-            "margin-left": "3%",
-            "margin-right": "3%",
-        },
-        className="data-content",
+            html.Div(
+                style={"display": "flex", "justify-content": "center", "align-items": "center", "width": "100%", "height": "15vh"},
+                children=[
+                    html.H1(
+                        "Strategy simulator", 
+                        className="my-title",
+                        style={
+                            "height": "100%", 
+                            "font-family": "Russo One", 
+                            "margin-top": "3%", 
+                            "margin-bottom": "0%", 
+                            "margin-left": "3%",
+                        }
+                    ),
+                ]
+            ),
+            html.Div(
+                id="strategy",
+                children=[
+                    dbc.Container(fluid=True, style={"margin-bottom": "2%"}, children=[
+                        dbc.Row(justify="center", align="center", children=[
+                            dbc.Col(html.Label("Total Laps"), xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col(html.Label("Pitloss"), xs=3, sm=2, md=2, lg=1, xl=1),
+                        ]),
+                        dbc.Row(justify="center", align="center", children=[
+                            dbc.Col([get_number_input("Total-Laps", value=total_laps)], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Pitloss", value=pitloss)], xs=3, sm=2, md=2, lg=1, xl=1),
+                        ]),
+                    ]),
+                    dbc.Container(fluid=True, children=[
+                        dbc.Row(justify="center", align="center", children=[
+                            dbc.Col(html.Div(), xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col(html.Label("Soft"), xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col(html.Label("Medium"), xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col(html.Label("Hard"), xs=3, sm=2, md=2, lg=1, xl=1),
+                        ]),
+                        dbc.Row(justify="center", align="center", children=[
+                            dbc.Col([html.Label("Pace")], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Soft-Pace", value=soft_pace)], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Medium-Pace", value=soft_pace * 1.005)], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Hard-Pace", value=soft_pace * 1.01)], xs=3, sm=2, md=2, lg=1, xl=1),
+                        ]),
+                        dbc.Row(justify="center", align="center", children=[
+                            dbc.Col([html.Label("Degradation")], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Soft-Degradation", value=medium_degradation * 1.01)], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Medium-Degradation", value=medium_degradation)], xs=3, sm=2, md=2, lg=1, xl=1),
+                            dbc.Col([get_number_input("Hard-Degradation", value=medium_degradation * 0.99)], xs=3, sm=2, md=2, lg=1, xl=1),
+                        ])
+                    ])
+                ],
+                style={
+                    "flex-grow": "1",
+                    "margin-top": "0%", 
+                    "margin-bottom": "3%", 
+                    "margin-left": "3%",
+                    "margin-right": "3%",
+                },
+                className="data-content",
+            ),
+            html.Br(),
+            html.Div(
+                style={"display": "flex", "justify-content": "center", "align-items": "center", "height": "5vh"},
+                children=[dcc.Link("Back to Home", href="/")]
+            )
+        ]
     )
+
