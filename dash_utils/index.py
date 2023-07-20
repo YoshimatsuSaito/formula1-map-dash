@@ -16,18 +16,12 @@ def register_index_callback(app, fig, SEASON):
     
     @app.callback(
         Output("page-content", "children"),
-        [Input("url", "pathname"),
-        Input("strategy-data-store", "data")]
+        [Input("url", "pathname")]
     )
-    def display_page(pathname, data):
+    def display_page(pathname):
         """Display page by url passed"""
         if pathname == "/Strategy":
-            # values = urllib.parse.parse_qs(urllib.parse.urlparse(search).query).get('values', [None])[0]
-            # print(values)
-            # if values is not None:
-            #     values = json.loads(urllib.parse.unquote(values))
-            if data is None:
-                data = (60, 20, 90, 0.05)
+            data = (60, 20, 90, 0.05)
             return get_page2_layout(*data)
         elif pathname == "/Prediction":
             return html.Div(children=[

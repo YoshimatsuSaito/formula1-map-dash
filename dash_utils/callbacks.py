@@ -2,14 +2,16 @@ import json
 import os
 import sys
 
+import dash
 import urllib
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 
-from plotting import create_circuit_figure
+from plotting import create_circuit_figure, create_main_figure
 
 
 def register_page1_callbacks(app, data4app):
@@ -18,14 +20,12 @@ def register_page1_callbacks(app, data4app):
     @app.callback(
         Output("map_circuit", "figure"),
         [Input("map-style-radio", "value"),
-        Input("click-data-store", "data")],
+        Input("map", "clickData")],
     )
-    def update_circuit_figure(map_style, clickData):
+    def update_circuit_figure(map_style="streets", clickData=None):
         """Update the circuit figure."""
-        print(clickData)
         if clickData is None:
             clickData = data4app.default_clickdata
-        # print(clickData)
         fig_circuit = create_circuit_figure(data4app.latest_gp_index, data4app.df, map_style, clickData)
         return fig_circuit
 
@@ -33,15 +33,11 @@ def register_page1_callbacks(app, data4app):
     @app.callback(
         Output("hover-data", "children"),
         [Input("map", "clickData")],
-        [State("click-data-store", "data")],
     )
-    def update_hover_data(clickData, storeData):
+    def update_hover_data(clickData):
         """Update hover (click) data"""
         if clickData is None:
-            if storeData is not None:
-                clickData = storeData
-            else:
-                clickData = data4app.default_clickdata
+            clickData = data4app.default_clickdata
 
         fp1 = clickData["points"][0]["customdata"]["fp1"]
         fp2 = clickData["points"][0]["customdata"]["fp2"]
@@ -84,20 +80,6 @@ def register_page1_callbacks(app, data4app):
                 )
             ], style={"overflow": "auto", "height": "100%"})
         ]
-        
-    @app.callback(
-        Output("click-data-store", "data"),
-        [Input("map", "clickData")],
-        State("click-data-store", "data")
-    )
-    def update_click_data(clickData, storeData):
-        """Update clickData for map"""
-        if clickData is None and storeData is None:
-            return data4app.default_clickdata
-        elif clickData is not None:
-            return clickData
-        else:
-            return storeData
 
 
 def register_page2_callbacks(app):

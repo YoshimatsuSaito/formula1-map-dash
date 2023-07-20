@@ -23,8 +23,6 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_ca
 app.layout = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Div(id="page-content"),
-    dcc.Store(id="click-data-store"),
-    dcc.Store(id="strategy-data-store"),
 ])
 
 # Register callback
