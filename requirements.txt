@@ -11,3 +11,5 @@ pandas
 python-dotenv
 scikit-learn
 scipy
+tqdm
+wikipedia-api
