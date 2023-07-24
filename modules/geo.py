@@ -7,7 +7,7 @@ current_dir = Path(__file__).resolve()
 # Dictionary of circuit names and geojson file names
 DICT_CIRCUIT_URL = {
     "yas_marina": "ae-2009.geojson",
-    "red_bull_ring":"at-1969.geojson",
+    "red_bull_ring": "at-1969.geojson",
     "albert_park": "au-1953.geojson",
     "baku": "az-2016.geojson",
     "spa": "be-1925.geojson",
@@ -17,8 +17,8 @@ DICT_CIRCUIT_URL = {
     "shanghai": "cn-2004.geojson",
     "nurburg": "de-1927.geojson",
     "suzuka": "jp-1962.geojson",
-    "jeddah": "sa-2021.geojson", 
-    "zandvoort" :"nl-1948.geojson", 
+    "jeddah": "sa-2021.geojson",
+    "zandvoort": "nl-1948.geojson",
     "vegas": "us-2023.geojson",
     "monaco": "mc-1929.geojson",
     "estoril": "pt-1972.geojson",
@@ -33,20 +33,20 @@ DICT_CIRCUIT_URL = {
     "hungaroring": "hu-1986.geojson",
     "monza": "it-1922.geojson",
     "jacarepaqua": "br-1977.geojson",
-    "mugello": "it-1914.geojson", 
+    "mugello": "it-1914.geojson",
     "losail": "qa-2004.geojson",
     "rodriguez": "mx-1962.geojson",
     "silverstone": "gb-1948.geojson",
     "sepang": "my-1999.geojson",
     "istanbul": "tr-2005.geojson",
     "sochi": "ru-2014.geojson",
-    "hockenheim": "de-1932.geojson"
+    "hockenheim": "de-1932.geojson",
 }
-
 
 
 class CircuitGeo:
     """Class to get geojson data of circuits from github"""
+
     def __init__(self):
         self.data_dir = current_dir.parent.parent / "data"
 
@@ -67,8 +67,8 @@ class CircuitGeo:
         """Get bounding box of circuit"""
         geo_data = self.get_geojson(circuit)
         min_lon, min_lat, max_lon, max_lat = geo_data["features"][0]["bbox"]
-        lon_extend = (max_lon - min_lon) /2
-        lat_extend = (max_lat - min_lat) /2
+        lon_extend = (max_lon - min_lon) / 2
+        lat_extend = (max_lat - min_lat) / 2
         min_lon -= lon_extend
         max_lon += lon_extend
         min_lat -= lat_extend
@@ -81,7 +81,6 @@ class CircuitGeo:
         """Get bounding box of circuit"""
         geo_data = self.get_geojson(circuit)
         min_lon, min_lat, max_lon, max_lat = geo_data["features"][0]["bbox"]
-        lon = (max_lon + min_lon) /2
-        lat = (max_lat + min_lat) /2
+        lon = (max_lon + min_lon) / 2
+        lat = (max_lat + min_lat) / 2
         return lat, lon
-    

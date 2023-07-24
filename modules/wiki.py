@@ -40,22 +40,22 @@ DICT_CIRCUIT_GPNAME = {
 }
 
 
-
 class WikiSearcher:
     """Search wikipedia page and extract information with LLM"""
+
     def __init__(self):
         self.wiki = wikipediaapi.Wikipedia(
             language="en",
             extract_format=wikipediaapi.ExtractFormat.WIKI,
-            user_agent="My User Agent - formula1-map-dash"
+            user_agent="My User Agent - formula1-map-dash",
         )
-    
+
     def create_dict_title(self, gpname, years_to_create=10):
         """Create wikipedia page titles"""
         last_year = datetime.now().year - 1
         list_year = list(range(last_year, last_year - years_to_create, -1))
         return {year: f"{year} {gpname} Grand Prix" for year in list_year}
-    
+
     def check_page_exists(self, title):
         """Check existence of the title page"""
         title_page = self.wiki.page(title)
@@ -67,25 +67,30 @@ class WikiSearcher:
             # for redirect
             else:
                 False
-    
+
     def get_page_content(self, title):
         """Get wikipedia page content"""
         return self.wiki.page(title).text
-        
+
     def get_condition_of_race(self, page_text, model="gpt-3.5-turbo-16k"):
         """Infer a condition of race day with LLM"""
         res = openai.ChatCompletion.create(
             model=model,
             messages=[
-                {"role": "system", "content": (
-                    f"""
+                {
+                    "role": "system",
+                    "content": (
+                        f"""
                     You are a helpful assistant to teach about a wikipedia page as shown below. 
                     
                     {page_text}
                     """
-                )},
-                {"role": "user", "content": (
-                    f"""
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"""
                     Understand the conditions during the final race and output as follows:
                     
                     If it can be determined that the race was conducted with no rain at all, the track surface was dry, and no red flags were raised, output as DRY.
@@ -97,19 +102,22 @@ class WikiSearcher:
                     }}
     
                     """
-                )},
-            ]
+                    ),
+                },
+            ],
         )
         return res["choices"][0]["message"]["content"]
-    
+
     def convert_to_dict(self, race_condition):
         """Convert str into dict"""
         return ast.literal_eval(race_condition)
-    
+
     def get_recent_dry_race(self, gpname):
         """Get recent dry races of the grandprix"""
         if gpname not in DICT_CIRCUIT_GPNAME.values():
-            raise ValueError(f"gpname must be one of the {DICT_CIRCUIT_GPNAME.values()}")
+            raise ValueError(
+                f"gpname must be one of the {DICT_CIRCUIT_GPNAME.values()}"
+            )
         # Get page title to search
         dict_title = self.create_dict_title(gpname)
         # Get page title existed
@@ -130,7 +138,7 @@ class WikiSearcher:
             # Proceed to next loop if all attempt was failed
             if num_retry == 10:
                 continue
-            # Otherwise check a condition of the year is DRY or not 
+            # Otherwise check a condition of the year is DRY or not
             if condition == "DRY":
                 return year
         # If there is no DRY race, return None

@@ -8,6 +8,7 @@ from modules.gp_info import SeasonInfo
 @dataclass
 class Data4App:
     """Data for the app."""
+
     si: SeasonInfo
     latest_gp_index: int
     latest_gp_legend: str
@@ -44,6 +45,10 @@ def create_default_clickdata(df: pd.DataFrame, latest_gp_index: int):
                     "url": df.iloc[latest_gp_index]["url"],
                     "lat_center": df.iloc[latest_gp_index]["lat"],
                     "lon_center": df.iloc[latest_gp_index]["lon"],
+                    "pitloss": df.iloc[latest_gp_index]["pitloss"],
+                    "totallap": df.iloc[latest_gp_index]["totallap"],
+                    "medium_pace": df.iloc[latest_gp_index]["medium_pace"],
+                    "medium_degradation": df.iloc[latest_gp_index]["medium_degradation"],
                 }
             }
         ]

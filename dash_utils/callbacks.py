@@ -19,16 +19,16 @@ def register_page1_callbacks(app, data4app):
 
     @app.callback(
         Output("map_circuit", "figure"),
-        [Input("map-style-radio", "value"),
-        Input("map", "clickData")],
+        [Input("map-style-radio", "value"), Input("map", "clickData")],
     )
     def update_circuit_figure(map_style="streets", clickData=None):
         """Update the circuit figure."""
         if clickData is None:
             clickData = data4app.default_clickdata
-        fig_circuit = create_circuit_figure(data4app.latest_gp_index, data4app.df, map_style, clickData)
+        fig_circuit = create_circuit_figure(
+            data4app.latest_gp_index, data4app.df, map_style, clickData
+        )
         return fig_circuit
-
 
     @app.callback(
         Output("hover-data", "children"),
@@ -49,53 +49,118 @@ def register_page1_callbacks(app, data4app):
         url = clickData["points"][0]["customdata"]["url"]
         circuit = clickData["points"][0]["customdata"]["circuit"]
         return [
-            html.Div([
-                html.Div(f"{gp_name}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"Circuit: {circuit}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"FP1: {fp1}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"FP2: {fp2}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"FP3: {fp3}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"Qualifying: {qualifying}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"Sprint: {sprint}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                html.Div(f"Race: {race}", style={"font-family": "Russo One", "height": "4%"}, className="data-content"),
-                dcc.Link("View Predictions / Results", href="/Prediction", style={"height": "4%"}),
-                html.Br(),
-                dcc.Link("Go to strategy simulator", href="/Strategy", style={"height": "4%"}),
-                dcc.Graph(
+            html.Div(
+                [
+                    html.Div(
+                        f"{gp_name}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"Circuit: {circuit}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"FP1: {fp1}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"FP2: {fp2}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"FP3: {fp3}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"Qualifying: {qualifying}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"Sprint: {sprint}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    html.Div(
+                        f"Race: {race}",
+                        style={"font-family": "Russo One", "height": "4%"},
+                        className="data-content",
+                    ),
+                    dcc.Link(
+                        "View Predictions / Results",
+                        href="/Prediction",
+                        style={"height": "4%"},
+                    ),
+                    html.Br(),
+                    dcc.Link(
+                        "Go to strategy simulator",
+                        id="strategy-link",
+                        href="/Strategy",
+                        style={"height": "4%"},
+                    ),
+                    dcc.Graph(
                         id="map_circuit",
                         config={"displayModeBar": False},
                         figure={},
                         style={"height": "50%", "width": "100%", "margin-top": "3%"},
                     ),
-                dcc.RadioItems(
-                    id="map-style-radio",
-                    options=[
-                        {"label": "Streets", "value": "streets"},
-                        {"label": "Satellite", "value": "satellite"},
-                    ],
-                    value="streets",
-                    labelStyle={"display": "inline-block"},
-                    style={"height": "5%"},
-                    className="data-content"
-                )
-            ], style={"overflow": "auto", "height": "100%"})
+                    dcc.RadioItems(
+                        id="map-style-radio",
+                        options=[
+                            {"label": "Streets", "value": "streets"},
+                            {"label": "Satellite", "value": "satellite"},
+                        ],
+                        value="streets",
+                        labelStyle={"display": "inline-block"},
+                        style={"height": "5%"},
+                        className="data-content",
+                    ),
+                ],
+                style={"overflow": "auto", "height": "100%"},
+            )
         ]
 
-
-def register_page2_callbacks(app):
-    
     @app.callback(
-        Output("strategy-data-store", "data"),
-        [Input("map", "clickData")]
+        Output("strategy-link", "href"),
+        [Input("map", "clickData")],
     )
-    def update_strategy_data(clickData):
-        """Update url for strategy simulator"""
+    def update_strategy_link(clickData):
+        """Update the link for the strategy simulator with clickData"""
         if clickData is None:
-            pass
-        total_laps = 50
-        pitloss = 20
-        soft_pace = 90
-        medium_degradation = 0.05
-        values = (total_laps, pitloss, soft_pace, medium_degradation)
-        return values
+            raise PreventUpdate
 
+        # temp
+        totallap = clickData["points"][0]["customdata"]["totallap"]
+        pitloss = clickData["points"][0]["customdata"]["pitloss"]
+        medium_pace = clickData["points"][0]["customdata"]["medium_pace"]
+        medium_degradation = clickData["points"][0]["customdata"]["medium_degradation"]
+        values = {
+            "totallap": totallap,
+            "pitloss": pitloss,
+            "medium_pace": medium_pace,
+            "medium_degradation": medium_degradation,
+        }
+
+        params = urllib.parse.urlencode(values)
+        new_url = f"/Strategy?{params}"
+        print(new_url)
+        return new_url
+
+
+# def register_page2_callbacks(app):
+#     @app.callback(Output("strategy-data-store", "data"), [Input("map", "clickData")])
+#     def update_strategy_data(clickData):
+#         """Update url for strategy simulator"""
+#         if clickData is None:
+#             pass
+#         total_laps = 50
+#         pitloss = 20
+#         soft_pace = 90
+#         medium_degradation = 0.05
+#         values = (total_laps, pitloss, soft_pace, medium_degradation)
+#         return values
