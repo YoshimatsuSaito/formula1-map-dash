@@ -7,6 +7,7 @@ import urllib
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from plotly import graph_objects as go
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
@@ -205,7 +206,23 @@ def register_page2_callbacks(app):
             medium_degradation,
             hard_degradation,
         ]:
-            return "There is some missing values."
+            fig = go.Figure()
+            fig.update_layout(
+                xaxis=dict(visible=False),
+                yaxis=dict(visible=False),
+                annotations=[
+                    dict(
+                        text="Enter the necessary<br>parameters above.",
+                        xref="paper",
+                        yref="paper",
+                        showarrow=False,
+                        font=dict(size=20)
+                    )
+                ],
+                margin=dict(r=0, t=0, l=0, b=0),
+                autosize=True,
+            )
+            return fig
         dict_degradation = {
             "Soft": soft_degradation,
             "Medium": medium_degradation,
