@@ -81,6 +81,27 @@ def get_page1_layout(fig, SEASON):
 
 def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation=0.05):
     """Get the layout of page2"""
+    if totallap == 999:
+        totallap = None
+    if pitloss == 999:
+        pitloss = None
+    if medium_pace == 999:
+        soft_pace, medium_pace, hard_pace = None, None, None
+    else:
+        soft_pace = round(medium_pace * 0.99, 3)
+        hard_pace = round(medium_pace * 1.02, 3)
+    if medium_degradation == 999:
+        soft_degradation, medium_degradation, hard_degradation = None, None, None
+    else:
+        abs_medium_degradation = abs(medium_degradation)
+        if medium_degradation >= 0:
+            soft_degradation = medium_degradation * 2
+            hard_degradation = medium_degradation / 2
+        else:
+            soft_degradation = medium_degradation + abs_medium_degradation * 2
+            hard_degradation = medium_degradation - abs_medium_degradation / 2
+        soft_degradation = round(soft_degradation, 3)
+        hard_degradation = round(hard_degradation, 3)
     return html.Div(
         style={
             "display": "flex",
@@ -208,7 +229,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                                     dbc.Col(
                                         [
                                             get_number_input(
-                                                "Soft-Pace", value=medium_pace
+                                                "Soft-Pace", value=soft_pace
                                             )
                                         ],
                                         xs=3,
@@ -232,7 +253,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                                     dbc.Col(
                                         [
                                             get_number_input(
-                                                "Hard-Pace", value=medium_pace
+                                                "Hard-Pace", value=hard_pace
                                             )
                                         ],
                                         xs=3,
@@ -259,7 +280,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                                         [
                                             get_number_input(
                                                 "Soft-Degradation",
-                                                value=medium_degradation,
+                                                value=soft_degradation,
                                             )
                                         ],
                                         xs=3,
@@ -285,7 +306,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                                         [
                                             get_number_input(
                                                 "Hard-Degradation",
-                                                value=medium_degradation,
+                                                value=hard_degradation,
                                             )
                                         ],
                                         xs=3,
@@ -298,6 +319,30 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                             ),
                         ],
                     ),
+                    html.Div(
+                        html.Button(
+                            "Simulate strategy",
+                            id="run-simulation-button",
+                            n_clicks=0,
+                            style={
+                                "borderRadius": "15px",
+                                "backgroundColor": "yellow",
+                                "border": "2px solid rgb(0, 0, 0)",
+                                "color": "black",
+                            },
+                        ),
+                        style={
+                            "textAlign": "center",
+                            "margin-top": "3%",
+                            "margin-bottom": "3%",
+                        },
+                    ),
+                    dcc.Graph(
+                        id="simulation-results",
+                        config={"displayModeBar": False},
+                        figure={},
+                        style={"height": "50%", "width": "100%", "margin-top": "3%"},
+                    ),
                 ],
                 style={
                     "flex-grow": "1",
@@ -305,6 +350,8 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                     "margin-bottom": "3%",
                     "margin-left": "3%",
                     "margin-right": "3%",
+                    "justify-content": "center",
+                    "align-items": "center",
                 },
                 className="data-content",
             ),

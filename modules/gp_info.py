@@ -228,7 +228,8 @@ class SeasonInfo:
         # Add last lap -1 for last stint
         list_pit_lap.append(len(list_lap_time))
         list_degradation = []
-        lap_start = 0
+        # Ignore first few laps
+        lap_start = 2
         # Loop for each stint
         for pit_lap in list_pit_lap:
             # Remove lap time of pit lap
@@ -294,10 +295,14 @@ class SeasonInfo:
         if read_data_for_strategy_simulator:
             # Read data that made in advance because it takes too much time to make data
             df_data_for_strategy_simulator = pd.read_csv(
-                os.path.join(current_dir, "../data/data_for_strategy_maker.csv"),
+                os.path.join(current_dir, "../data/data_for_strategy_simulator.csv"),
             )
-            df_data_for_strategy_simulator["totallap"] = df_data_for_strategy_simulator["totallap"].astype("Int64")
-            df = pd.merge(df, df_data_for_strategy_simulator, on="circuit_id", how="left")
+            df_data_for_strategy_simulator["totallap"] = df_data_for_strategy_simulator[
+                "totallap"
+            ].astype("Int64")
+            df = pd.merge(
+                df, df_data_for_strategy_simulator, on="circuit_id", how="left"
+            )
         else:
             for colname in ["pitloss", "totallap", "medium_pace", "medium_degradation"]:
                 df[colname] = None

@@ -10,12 +10,14 @@ from dash.exceptions import PreventUpdate
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
+sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 
-from plotting import create_circuit_figure, create_main_figure
+from plotting import create_circuit_figure, create_main_figure, create_strategy_figure
+from strategy_maker import optimize_strategy
 
 
 def register_page1_callbacks(app, data4app):
-    """Register callbacks for the app."""
+    """Register callbacks for the page1"""
 
     @app.callback(
         Output("map_circuit", "figure"),
@@ -132,13 +134,27 @@ def register_page1_callbacks(app, data4app):
     def update_strategy_link(clickData):
         """Update the link for the strategy simulator with clickData"""
         if clickData is None:
-            raise PreventUpdate
+            clickData = data4app.default_clickdata
 
         # temp
         totallap = clickData["points"][0]["customdata"]["totallap"]
         pitloss = clickData["points"][0]["customdata"]["pitloss"]
         medium_pace = clickData["points"][0]["customdata"]["medium_pace"]
         medium_degradation = clickData["points"][0]["customdata"]["medium_degradation"]
+        if totallap is None:
+            totallap = 999
+        if pitloss is not None:
+            pitloss = round(pitloss, 3)
+        else:
+            pitloss = 999
+        if medium_pace is not None:
+            medium_pace = round(medium_pace, 3)
+        else:
+            medium_pace = 999
+        if medium_degradation is not None:
+            medium_degradation = round(medium_degradation, 3)
+        else:
+            medium_degradation = 999
         values = {
             "totallap": totallap,
             "pitloss": pitloss,
@@ -148,19 +164,54 @@ def register_page1_callbacks(app, data4app):
 
         params = urllib.parse.urlencode(values)
         new_url = f"/Strategy?{params}"
-        print(new_url)
         return new_url
 
 
-# def register_page2_callbacks(app):
-#     @app.callback(Output("strategy-data-store", "data"), [Input("map", "clickData")])
-#     def update_strategy_data(clickData):
-#         """Update url for strategy simulator"""
-#         if clickData is None:
-#             pass
-#         total_laps = 50
-#         pitloss = 20
-#         soft_pace = 90
-#         medium_degradation = 0.05
-#         values = (total_laps, pitloss, soft_pace, medium_degradation)
-#         return values
+def register_page2_callbacks(app):
+    """Register callbacks for the page2"""
+
+    @app.callback(
+        Output("simulation-results", "figure"),
+        [Input("run-simulation-button", "n_clicks")],
+        [
+            State("Total-Laps", "value"),
+            State("Pitloss", "value"),
+            State("Soft-Pace", "value"),
+            State("Medium-Pace", "value"),
+            State("Hard-Pace", "value"),
+            State("Soft-Degradation", "value"),
+            State("Medium-Degradation", "value"),
+            State("Hard-Degradation", "value"),
+        ],
+    )
+    def update_output(
+        n_clicks,
+        totallap,
+        pitloss,
+        soft_pace,
+        medium_pace,
+        hard_pace,
+        soft_degradation,
+        medium_degradation,
+        hard_degradation,
+    ):
+        if None in [
+            totallap,
+            pitloss,
+            soft_pace,
+            medium_pace,
+            hard_pace,
+            soft_degradation,
+            medium_degradation,
+            hard_degradation,
+        ]:
+            return "There is some missing values."
+        dict_degradation = {
+            "Soft": soft_degradation,
+            "Medium": medium_degradation,
+            "Hard": hard_degradation,
+        }
+        dict_pace = {"Soft": soft_pace, "Medium": medium_pace, "Hard": hard_pace}
+
+        df_optimized = optimize_strategy(pitloss, totallap, dict_degradation, dict_pace)
+        return create_strategy_figure(df_optimized)

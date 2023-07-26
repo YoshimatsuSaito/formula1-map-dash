@@ -21,10 +21,10 @@ def register_index_callback(app, fig, SEASON):
         """Display page by url passed"""
         if pathname == "/Strategy":
             params = urllib.parse.parse_qs(search.lstrip("?"))
-            totallap = int(params.get("totallap", [60])[0])
-            pitloss = float(params.get("pitloss", [20.0])[0])
-            medium_pace = float(params.get("medium_pace", [90.0])[0])
-            medium_degradation = float(params.get("medium_degradation", [0.05])[0])
+            totallap = int(params.get("totallap", [999])[0])
+            pitloss = float(params.get("pitloss", [999])[0])
+            medium_pace = float(params.get("medium_pace", [999])[0])
+            medium_degradation = float(params.get("medium_degradation", [999])[0])
             data = (totallap, pitloss, medium_pace, medium_degradation)
             return get_page2_layout(*data)
         elif pathname == "/Prediction":

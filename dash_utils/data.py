@@ -48,7 +48,9 @@ def create_default_clickdata(df: pd.DataFrame, latest_gp_index: int):
                     "pitloss": df.iloc[latest_gp_index]["pitloss"],
                     "totallap": df.iloc[latest_gp_index]["totallap"],
                     "medium_pace": df.iloc[latest_gp_index]["medium_pace"],
-                    "medium_degradation": df.iloc[latest_gp_index]["medium_degradation"],
+                    "medium_degradation": df.iloc[latest_gp_index][
+                        "medium_degradation"
+                    ],
                 }
             }
         ]
