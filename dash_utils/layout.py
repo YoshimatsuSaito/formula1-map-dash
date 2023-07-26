@@ -106,9 +106,10 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
         style={
             "display": "flex",
             "flex-direction": "column",
-            "height": "95vh",
+            "height": "160vh",
             "overflow": "auto",
             "margin-top": "10vh",
+            "justify-content": "center",
         },
         children=[
             html.Div(
@@ -326,7 +327,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                             n_clicks=0,
                             style={
                                 "borderRadius": "15px",
-                                "backgroundColor": "yellow",
+                                "backgroundColor": "rgb(173, 255, 47)",
                                 "border": "2px solid rgb(0, 0, 0)",
                                 "color": "black",
                             },
@@ -334,14 +335,8 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                         style={
                             "textAlign": "center",
                             "margin-top": "3%",
-                            "margin-bottom": "3%",
+                            "margin-bottom": "0%",
                         },
-                    ),
-                    dcc.Graph(
-                        id="simulation-results",
-                        config={"displayModeBar": False},
-                        figure={},
-                        style={"height": "50%", "width": "100%", "margin-top": "3%"},
                     ),
                 ],
                 style={
@@ -354,6 +349,31 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                     "align-items": "center",
                 },
                 className="data-content",
+            ),
+            html.Div(
+                children=[
+                    dcc.Graph(
+                        id="simulation-results",
+                        config={"displayModeBar": False},
+                        figure={},
+                        style={
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "textAlign": "center",
+                            "height": "100%",
+                            "width": "80%",
+                        },
+                    ),
+                ],
+                style={
+                    "display": "flex",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "textAlign": "center",
+                    "height": "80vh",
+                    "width": "100%",
+                    "margin-bottom": "3%",
+                },
             ),
             html.Br(),
             html.Div(

@@ -122,6 +122,20 @@ def create_strategy_figure(df_strategy, num_show=10):
     """Create possible strategies figure"""
     fig = go.Figure()
     dict_idx_total_lap_time = dict()
+    dict_idx_label = dict()
+
+    # Get best 2 strategies for each number of stops
+    list_target_index = (
+        df_strategy.groupby("n_stop")
+        .apply(lambda x: x.nsmallest(2, "total_lap_time"))
+        .index
+    )
+    list_target_index = [x[1] for x in list_target_index]
+    df_strategy = (
+        df_strategy.loc[list_target_index]
+        .sort_values(by=["n_stop", "total_lap_time"])
+        .reset_index(drop=True)
+    )
 
     for row in df_strategy.itertuples():
         list_compound = [
@@ -135,27 +149,25 @@ def create_strategy_figure(df_strategy, num_show=10):
         dict_idx_total_lap_time[(num_show - row.Index) * 2] = convert_seconds_to_hms(
             row.total_lap_time
         )
+        dict_idx_label[(num_show - row.Index) * 2] = f"{row.n_stop} stop"
 
         add_strategy(fig, list_lap, list_color, list_index)
         add_lap_annotation(fig, list_lap, list_index)
 
         add_strategy(fig, list_lap, list_color, list_index, add_space=True)
 
-        if row.Index == num_show - 1:
-            break
-
     add_color_legend(fig)
 
     fig.update_layout(
         barmode="stack",
-        title="Top 10 Possible Race Strategies",
+        title="Possible race strategies given parameters above",
         plot_bgcolor="black",
         paper_bgcolor="black",
         font=dict(color="white"),
         yaxis=dict(
             showticklabels=True,
-            tickvals=list(dict_idx_total_lap_time.keys()),
-            ticktext=list(dict_idx_total_lap_time.values()),
+            tickvals=list(dict_idx_label.keys()),
+            ticktext=list(dict_idx_label.values()),
         ),
         xaxis=dict(showticklabels=False, showgrid=False),
         legend=dict(orientation="h", yanchor="top", y=-0.1, xanchor="right", x=1),
