@@ -121,7 +121,6 @@ def create_circuit_figure(latest_gp_index, df, map_style, clickData):
 def create_strategy_figure(df_strategy, num_show=10):
     """Create possible strategies figure"""
     fig = go.Figure()
-    dict_idx_total_lap_time = dict()
     dict_idx_label = dict()
 
     # Get best 2 strategies for each number of stops
@@ -146,10 +145,8 @@ def create_strategy_figure(df_strategy, num_show=10):
         ]
         list_color = [DICT_COMPOUND_COLOR[x] for x in list_compound]
         list_index = [(num_show - row.Index) * 2] * len(list_compound)
-        dict_idx_total_lap_time[(num_show - row.Index) * 2] = convert_seconds_to_hms(
-            row.total_lap_time
-        )
-        dict_idx_label[(num_show - row.Index) * 2] = f"{row.n_stop} stop"
+        label = f"{row.n_stop} ({convert_seconds_to_hms(row.total_lap_time)})"
+        dict_idx_label[(num_show - row.Index) * 2] = label
 
         add_strategy(fig, list_lap, list_color, list_index)
         add_lap_annotation(fig, list_lap, list_index)
@@ -171,6 +168,7 @@ def create_strategy_figure(df_strategy, num_show=10):
         ),
         xaxis=dict(showticklabels=False, showgrid=False),
         legend=dict(orientation="h", yanchor="top", y=-0.1, xanchor="right", x=1),
+        yaxis_title="Number of pit stops"
     )
 
     return fig
@@ -377,4 +375,4 @@ def convert_seconds_to_hms(seconds):
         m = f"0{m}"
     if s < 10:
         s = f"0{s}"
-    return f"{h}h {m}m {s}s"
+    return f"{h}:{m}:{s}"
