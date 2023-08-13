@@ -162,3 +162,4 @@ cython_debug/
 notebook/
 data/
 *.sh
+layer/
