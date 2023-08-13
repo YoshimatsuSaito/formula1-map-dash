@@ -168,7 +168,7 @@ def create_strategy_figure(df_strategy, num_show=10):
         ),
         xaxis=dict(showticklabels=False, showgrid=False),
         legend=dict(orientation="h", yanchor="top", y=-0.1, xanchor="right", x=1),
-        yaxis_title="Number of pit stops"
+        yaxis_title="Number of pit stops",
     )
 
     return fig

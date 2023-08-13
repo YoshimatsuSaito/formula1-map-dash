@@ -1,3 +1,4 @@
+boto3
 dash
 dash-bootstrap-components
 ergast-py

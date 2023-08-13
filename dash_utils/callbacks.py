@@ -216,7 +216,7 @@ def register_page2_callbacks(app):
                         xref="paper",
                         yref="paper",
                         showarrow=False,
-                        font=dict(size=20)
+                        font=dict(size=20),
                     )
                 ],
                 margin=dict(r=0, t=0, l=0, b=0),
