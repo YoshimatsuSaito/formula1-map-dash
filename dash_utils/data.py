@@ -51,6 +51,7 @@ def create_default_clickdata(df: pd.DataFrame, latest_gp_index: int):
                     "medium_degradation": df.iloc[latest_gp_index][
                         "medium_degradation"
                     ],
+                    "n_round": df.iloc[latest_gp_index]["n_round"],
                 }
             }
         ]

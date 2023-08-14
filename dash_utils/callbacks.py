@@ -96,6 +96,7 @@ def register_page1_callbacks(app, data4app):
                     ),
                     dcc.Link(
                         "View Predictions / Results",
+                        id="prediction-link",
                         href="/Prediction",
                         style={"height": "4%"},
                     ),
@@ -137,7 +138,6 @@ def register_page1_callbacks(app, data4app):
         if clickData is None:
             clickData = data4app.default_clickdata
 
-        # temp
         totallap = clickData["points"][0]["customdata"]["totallap"]
         pitloss = clickData["points"][0]["customdata"]["pitloss"]
         medium_pace = clickData["points"][0]["customdata"]["medium_pace"]
@@ -165,6 +165,21 @@ def register_page1_callbacks(app, data4app):
 
         params = urllib.parse.urlencode(values)
         new_url = f"/Strategy?{params}"
+        return new_url
+
+    @app.callback(
+        Output("prediction-link", "href"),
+        [Input("map", "clickData")],
+    )
+    def update_prediction_link(clickData):
+        """Update the link for the strategy simulator with clickData"""
+        if clickData is None:
+            clickData = data4app.default_clickdata
+
+        n_round = clickData["points"][0]["customdata"]["n_round"]
+        values = {"n_round": n_round}
+        params = urllib.parse.urlencode(values)
+        new_url = f"/Prediction?{params}"
         return new_url
 
 

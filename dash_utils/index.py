@@ -28,8 +28,10 @@ def register_index_callback(app, fig, SEASON):
             data = (totallap, pitloss, medium_pace, medium_degradation)
             return get_page2_layout(*data)
         elif pathname == "/Prediction":
+            params = urllib.parse.parse_qs(search.lstrip("?"))
+            n_round = params.get("n_round")[0]
             return html.Div(
-                children=[html.Div("Prediction"), dcc.Link("Back to Home", href="/")]
+                children=[html.Div("Prediction"), dcc.Link(f"Back to Home {n_round}", href="/")]
             )
         else:
             return get_page1_layout(fig, SEASON)

@@ -81,6 +81,10 @@ class SeasonInfo:
                 for x in self.season_info
             ]
         return None
+        
+    def get_round_number(self):
+        """Get round number"""
+        return [x.round_no for x in self.season_info]
 
     def get_gp_name(self):
         """Get grand prix name"""
@@ -290,6 +294,7 @@ class SeasonInfo:
                 "url": self.get_url(),
                 "lat": self.get_latitude(),
                 "lon": self.get_longtiude(),
+                "n_round": self.get_round_number(),
             }
         )
         if read_data_for_strategy_simulator:
