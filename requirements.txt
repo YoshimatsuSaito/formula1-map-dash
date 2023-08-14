@@ -10,7 +10,7 @@ notebook
 numpy
 pandas
 python-dotenv
-scikit-learn
+scikit-learn==1.2.2
 scipy
 tqdm
 wikipedia-api

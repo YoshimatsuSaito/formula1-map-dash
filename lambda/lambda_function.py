@@ -2,6 +2,7 @@ import io
 import os
 import pickle
 import sys
+from datetime import datetime
 from io import BytesIO
 
 import boto3
@@ -11,6 +12,7 @@ from preprocessing_pipeline import retrieve_data_for_inference, transform_data, 
 
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
 CURRENT_SEASON = 2023
+current_date = datetime.now().strftime("%y%m%d")
 
 
 def lambda_handler(event, context):
@@ -22,4 +24,4 @@ def lambda_handler(event, context):
     s3 = boto3.client("s3")
     csv_buffer = BytesIO()
     df.to_csv(csv_buffer, index=False)
-    s3.put_object(Bucket=BUCKET_NAME, Key="features.csv", Body=csv_buffer.getvalue())
+    s3.put_object(Bucket=BUCKET_NAME, Key=f"features/features_{current_date}.csv", Body=csv_buffer.getvalue())
