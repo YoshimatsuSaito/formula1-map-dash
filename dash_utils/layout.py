@@ -9,6 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 
 from components import get_number_input
+from plotting import create_prediction_figure
 
 
 def get_page1_layout(fig, SEASON):
@@ -371,6 +372,78 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                     "align-items": "center",
                     "textAlign": "center",
                     "height": "80vh",
+                    "width": "100%",
+                    "margin-bottom": "3%",
+                },
+            ),
+            html.Br(),
+            html.Div(
+                style={
+                    "display": "flex",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "height": "5vh",
+                },
+                children=[dcc.Link("Back to Home", href="/")],
+            ),
+        ],
+    )
+
+
+def get_page3_layout(gp_name, df_prediction):
+    """Get the layout of page3"""
+    return html.Div(
+        style={
+            "display": "flex",
+            "flex-direction": "column",
+            "height": "95vh",
+            "overflow": "auto",
+        },
+        children=[
+            html.Div(
+                style={
+                    "display": "flex",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "width": "100%",
+                    "height": "15vh",
+                },
+                children=[
+                    html.H1(
+                        f"Prediction of {gp_name}",
+                        className="my-title",
+                        style={
+                            "height": "100%",
+                            "font-family": "Russo One",
+                            "margin-top": "3%",
+                            "margin-bottom": "0%",
+                            "margin-left": "3%",
+                        },
+                    ),
+                ],
+            ),
+            html.Div(
+                id="prediction-result",
+                children=[
+                    dcc.Graph(
+                        figure=create_prediction_figure(df_prediction),
+                        config={"displayModeBar": False},
+                        style={
+                            "flex": "50%",
+                            "height": "100%",
+                            "margin-top": "3%",
+                            "margin-bottom": "3%",
+                            "margin-left": "3%",
+                            "margin-right": "3%",
+                        },
+                    ),
+                ],
+                style={
+                    "display": "flex",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "textAlign": "center",
+                    "height": "70vh",
                     "width": "100%",
                     "margin-bottom": "3%",
                 },

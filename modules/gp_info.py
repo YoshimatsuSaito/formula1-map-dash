@@ -81,7 +81,7 @@ class SeasonInfo:
                 for x in self.season_info
             ]
         return None
-        
+
     def get_round_number(self):
         """Get round number"""
         return [x.round_no for x in self.season_info]

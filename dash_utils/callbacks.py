@@ -13,7 +13,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 
-from plotting import create_circuit_figure, create_main_figure, create_strategy_figure
+from plotting import create_circuit_figure, create_main_figure, create_strategy_figure, create_prediction_figure
 from strategy_maker import optimize_strategy
 
 
@@ -177,7 +177,8 @@ def register_page1_callbacks(app, data4app):
             clickData = data4app.default_clickdata
 
         n_round = clickData["points"][0]["customdata"]["n_round"]
-        values = {"n_round": n_round}
+        gp_name = clickData["points"][0]["customdata"]["gp_name"]
+        values = {"n_round": n_round, "gp_name": gp_name}
         params = urllib.parse.urlencode(values)
         new_url = f"/Prediction?{params}"
         return new_url
@@ -247,3 +248,27 @@ def register_page2_callbacks(app):
 
         df_optimized = optimize_strategy(pitloss, totallap, dict_degradation, dict_pace)
         return create_strategy_figure(df_optimized)
+
+
+
+# def register_page3_callbacks(app):
+#     """Register callbacks for the page3"""
+
+#     @app.callback(
+#         Output("prediction-result", "children"),
+#         [Input("map", "clickData")],
+#     )
+#     def update_output(clickData):
+        
+#         return html.Div(
+            
+#             style={
+#                 "display": "flex",
+#                 "justify-content": "center",
+#                 "align-items": "center",
+#                 "textAlign": "center",
+#                 "height": "70vh",
+#                 "width": "100%",
+#                 "margin-bottom": "3%",
+#             },
+#         ),

@@ -190,6 +190,7 @@ def plot_circuit_location(
     totallap,
     medium_pace,
     medium_degradation,
+    n_round,
     color,
     showlegend=False,
     name=None,
@@ -226,6 +227,7 @@ def plot_circuit_location(
                     "totallap": totallap,
                     "medium_pace": medium_pace,
                     "medium_degradation": medium_degradation,
+                    "n_round": n_round,
                 }
             ],
             hovertemplate=f"{gp_name}<extra></extra>",
@@ -251,6 +253,7 @@ def plot_circuit_shape(
     totallap,
     medium_pace,
     medium_degradation,
+    n_round,
     color,
     showlegend=False,
     name=None,
@@ -284,6 +287,7 @@ def plot_circuit_shape(
                     "totallap": totallap,
                     "medium_pace": medium_pace,
                     "medium_degradation": medium_degradation,
+                    "n_round": n_round
                 }
             ]
             * len(lat),
@@ -376,3 +380,19 @@ def convert_seconds_to_hms(seconds):
     if s < 10:
         s = f"0{s}"
     return f"{h}:{m}:{s}"
+
+
+def create_prediction_figure(df):
+    """Create prediction figure"""
+    fig = go.Figure(go.Bar(x=df["target"], y=df["driver"], orientation="h"))
+    fig.update_layout(
+        xaxis_title="Winning Probability", yaxis_title="Driver",
+        xaxis=dict(range=[0, 1], showgrid=False),
+        yaxis_tickmode='linear',
+        margin=dict(r=0, t=0, l=0, b=0),
+        plot_bgcolor="black",
+        paper_bgcolor="black",
+        font=dict(color="white"),
+        dragmode=False,
+    )
+    return fig
