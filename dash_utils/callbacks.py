@@ -13,7 +13,12 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 
-from plotting import create_circuit_figure, create_main_figure, create_strategy_figure, create_prediction_figure
+from plotting import (
+    create_circuit_figure,
+    create_main_figure,
+    create_strategy_figure,
+    create_prediction_figure,
+)
 from strategy_maker import optimize_strategy
 
 
@@ -250,7 +255,6 @@ def register_page2_callbacks(app):
         return create_strategy_figure(df_optimized)
 
 
-
 # def register_page3_callbacks(app):
 #     """Register callbacks for the page3"""
 
@@ -259,9 +263,9 @@ def register_page2_callbacks(app):
 #         [Input("map", "clickData")],
 #     )
 #     def update_output(clickData):
-        
+
 #         return html.Div(
-            
+
 #             style={
 #                 "display": "flex",
 #                 "justify-content": "center",

@@ -5,7 +5,10 @@ from dash import dcc, html
 from dash_utils.index import register_index_callback
 from dash_utils.plotting import create_main_figure
 from dash_utils.data import create_data
-from dash_utils.callbacks import register_page1_callbacks, register_page2_callbacks#, register_page3_callbacks
+from dash_utils.callbacks import (
+    register_page1_callbacks,
+    register_page2_callbacks,
+)  # , register_page3_callbacks
 from modules.predictor import get_df_prediction
 
 # Set information

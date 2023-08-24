@@ -287,7 +287,7 @@ def plot_circuit_shape(
                     "totallap": totallap,
                     "medium_pace": medium_pace,
                     "medium_degradation": medium_degradation,
-                    "n_round": n_round
+                    "n_round": n_round,
                 }
             ]
             * len(lat),
@@ -384,11 +384,12 @@ def convert_seconds_to_hms(seconds):
 
 def create_prediction_figure(df):
     """Create prediction figure"""
-    fig = go.Figure(go.Bar(x=df["target"], y=df["driver"], orientation="h"))
+    fig = go.Figure(go.Bar(x=df["target"], y=df["driver_code"], orientation="h"))
     fig.update_layout(
-        xaxis_title="Winning Probability", yaxis_title="Driver",
-        xaxis=dict(range=[0, 1], showgrid=False),
-        yaxis_tickmode='linear',
+        xaxis_title="Winning Probability(%)",
+        yaxis_title="Driver",
+        xaxis=dict(range=[0, 100], showgrid=False),
+        yaxis_tickmode="linear",
         margin=dict(r=0, t=0, l=0, b=0),
         plot_bgcolor="black",
         paper_bgcolor="black",

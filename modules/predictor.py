@@ -6,6 +6,7 @@ from io import BytesIO
 import boto3
 import pandas as pd
 from dotenv import load_dotenv
+from ergast_py import Ergast
 from lightgbm import LGBMClassifier
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -50,6 +51,12 @@ class Predictor:
         y_pred = self.model.predict_proba(self.df.loc[:, LIST_COL_X])[:, 1]
         self.df["pred"] = y_pred
 
+    def _add_info(self):
+        """Add information"""
+        list_driver = Ergast().season(int(self.df["year"].max())).get_drivers()
+        dict_driver_id_code = {v.driver_id: v.code for v in list_driver}
+        self.df["driver_code"] = self.df["driver"].replace(dict_driver_id_code)
+
 
 def get_df_prediction():
     """Load model, features, and predict"""
@@ -57,4 +64,5 @@ def get_df_prediction():
     pr._load_model()
     pr._load_features()
     pr._predict()
+    pr._add_info()
     return pr.df
