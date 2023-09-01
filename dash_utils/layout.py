@@ -444,10 +444,11 @@ def get_page3_layout(gp_name, df_prediction):
         style={
             "display": "flex",
             "flex-direction": "column",
-            "height": "100vh",
+            "height": "auto",
             "overflow": "auto",
             "justify-content": "center",
             "align-items": "center",
+            "margin-top": "10vh",
         },
         children=[
             html.Div(
@@ -465,12 +466,35 @@ def get_page3_layout(gp_name, df_prediction):
                         style={
                             "height": "100%",
                             "font-family": "Russo One",
-                            "margin-top": "2%",
+                            "margin-top": "0%",
                             "margin-bottom": "0%",
                             "margin-left": "3%",
                         },
                     ),
                 ],
+            ),
+            html.Div(
+                children=[
+                    html.Div(
+                        children=[
+                            dcc.Markdown("""
+                            - Using recent data and last year's race results, we predict each driver's winning probabilities for the GP.
+                            """
+                            )
+                        ]
+                    )
+                ],
+                style={
+                    "display": "flex",
+                    "flex-direction": "column",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "height": "auto",
+                    "margin-top": "1%",
+                    "margin-bottom": "1%",
+                    "margin-right": "5%",
+                    "margin-left": "5%",
+                }
             ),
             html.Div(
                 id="prediction-result",
@@ -493,7 +517,7 @@ def get_page3_layout(gp_name, df_prediction):
                     "justify-content": "center",
                     "align-items": "center",
                     "textAlign": "center",
-                    "height": "70vh",
+                    "height": "50vh",
                     "width": "60%",
                     "margin-bottom": "2%",
                 },
