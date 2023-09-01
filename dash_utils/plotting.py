@@ -132,7 +132,7 @@ def create_strategy_figure(df_strategy, num_show=10):
     list_target_index = [x[1] for x in list_target_index]
     df_strategy = (
         df_strategy.loc[list_target_index]
-        .sort_values(by=["n_stop", "total_lap_time"])
+        .sort_values(by=["total_lap_time"])
         .reset_index(drop=True)
     )
 
@@ -145,7 +145,7 @@ def create_strategy_figure(df_strategy, num_show=10):
         ]
         list_color = [DICT_COMPOUND_COLOR[x] for x in list_compound]
         list_index = [(num_show - row.Index) * 2] * len(list_compound)
-        label = f"{row.n_stop} ({convert_seconds_to_hms(row.total_lap_time)})"
+        label = f"{convert_seconds_to_hms(row.total_lap_time)}"
         dict_idx_label[(num_show - row.Index) * 2] = label
 
         add_strategy(fig, list_lap, list_color, list_index)
@@ -168,7 +168,7 @@ def create_strategy_figure(df_strategy, num_show=10):
         ),
         xaxis=dict(showticklabels=False, showgrid=False),
         legend=dict(orientation="h", yanchor="top", y=-0.1, xanchor="right", x=1),
-        yaxis_title="Number of pit stops",
+        yaxis_title="Strategies",
     )
 
     return fig
@@ -379,7 +379,7 @@ def convert_seconds_to_hms(seconds):
         m = f"0{m}"
     if s < 10:
         s = f"0{s}"
-    return f"{h}:{m}:{s}"
+    return f"{h}h {m}m {s}s"
 
 
 def create_prediction_figure(df):

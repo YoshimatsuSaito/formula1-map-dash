@@ -253,6 +253,24 @@ def register_page2_callbacks(app):
 
         df_optimized = optimize_strategy(pitloss, totallap, dict_degradation, dict_pace)
         return create_strategy_figure(df_optimized)
+    
+    @app.callback(
+        Output("explanation-area-strategy", "style"),
+        Output("toggle-button-strategy", "children"),
+        [Input("toggle-button-strategy", "n_clicks")]
+    )
+    def toggle_collapse(n_clicks):
+        if n_clicks % 2 == 0:
+            return {"display": "none"}, "Show User Guide"
+        else:
+            return {
+                "display": "block",
+                "background-color": "#f2f2f2",
+                "border": "2px solid black",
+                "margin": "20px",
+                "padding": "20px",
+                "overflow": "auto"
+            }, "Hide User Guide"
 
 
 # def register_page3_callbacks(app):

@@ -107,7 +107,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
         style={
             "display": "flex",
             "flex-direction": "column",
-            "height": "160vh",
+            "height": "auto",
             "overflow": "auto",
             "margin-top": "10vh",
             "justify-content": "center",
@@ -134,6 +134,54 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                         },
                     ),
                 ],
+            ),
+            html.Div(
+                children=[
+                    html.Button("Show User Guide", id="toggle-button-strategy", n_clicks=0, 
+                        style={
+                            "backgroundColor": "blue",
+                            "color": "white", 
+                            "margin": "0%",
+                            "boxShadow": "0px 8px 16px 0px rgba(0,0,0,0.2)",
+                            "border": "none",
+                            "cursor": "pointer",
+                        }
+                    ),
+                    html.Div(
+                        id="explanation-area-strategy", 
+                        style={"display": "none"},
+                    children=[
+                        dcc.Markdown("""
+                        This page allows you to calculate the fastest tire strategy options by entering various parameters.
+                        """),
+                        dcc.Markdown("""
+                        #### Required Parameters
+                        - Total Laps: Total number of laps
+                        - Pitloss: Time lost when entering the pit (in seconds)
+                        - Pace: The initial race pace for each tire compound (Soft, Medium, Hard) in seconds
+                        - Degradation: How much slower each tire compound (Soft, Medium, Hard) becomes per lap (in seconds)
+                        
+                        After inputting these parameters, you can press the "Simulate Strategy" button to reveal the optimal tire strategy for each number of pit stops. By default, we provide rough estimates for these parameters based on past data. However, these are merely guidelines, and it is recommended to overwrite them with more accurate values specific to the current race week.
+                        """
+                        ),
+                        dcc.Markdown("""
+                        #### How to Interpret Results
+                        - The number of pit stops (1, 2, 3) will each have the fastest and next best strategies calculated (totaling 6 strategies), which are displayed in order of total lap time.
+                        """
+                        )
+                    ])
+                ],
+                style={
+                    "display": "flex",
+                    "flex-direction": "column",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "height": "auto",
+                    "margin-top": "1%",
+                    "margin-bottom": "5%",
+                    "margin-right": "5%",
+                    "margin-left": "5%",
+                }
             ),
             html.Div(
                 id="strategy",
@@ -323,7 +371,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                     ),
                     html.Div(
                         html.Button(
-                            "Simulate strategy",
+                            "Simulate Strategy",
                             id="run-simulation-button",
                             n_clicks=0,
                             style={
