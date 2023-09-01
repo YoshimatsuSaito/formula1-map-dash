@@ -18,7 +18,7 @@ def get_page1_layout(fig, SEASON):
         style={
             "display": "flex",
             "flex-direction": "column",
-            "height": "95vh",
+            "height": "100vh",
             "overflow": "auto",
         },
         children=[
@@ -31,7 +31,7 @@ def get_page1_layout(fig, SEASON):
                         style={
                             "height": "100%",
                             "font-family": "Russo One",
-                            "margin-top": "3%",
+                            "margin-top": "2%",
                             "margin-bottom": "0%",
                             "margin-left": "3%",
                         },
@@ -45,7 +45,7 @@ def get_page1_layout(fig, SEASON):
                     "flex-direction": "row",
                     "height": "80vh",
                     "margin-top": "0%",
-                    "margin-bottom": "3%",
+                    "margin-bottom": "2%",
                     "margin-left": "3%",
                     "margin-right": "3%",
                 },
@@ -57,8 +57,8 @@ def get_page1_layout(fig, SEASON):
                         style={
                             "flex": "50%",
                             "height": "100%",
-                            "margin-top": "3%",
-                            "margin-bottom": "3%",
+                            "margin-top": "2%",
+                            "margin-bottom": "2%",
                             "margin-left": "3%",
                             "margin-right": "3%",
                         },
@@ -68,8 +68,8 @@ def get_page1_layout(fig, SEASON):
                         style={
                             "flex": "50%",
                             "height": "100%",
-                            "margin-top": "3%",
-                            "margin-bottom": "3%",
+                            "margin-top": "2%",
+                            "margin-bottom": "2%",
                             "margin-left": "3%",
                             "margin-right": "3%",
                         },
@@ -396,8 +396,10 @@ def get_page3_layout(gp_name, df_prediction):
         style={
             "display": "flex",
             "flex-direction": "column",
-            "height": "95vh",
+            "height": "100vh",
             "overflow": "auto",
+            "justify-content": "center",
+            "align-items": "center",
         },
         children=[
             html.Div(
@@ -415,7 +417,7 @@ def get_page3_layout(gp_name, df_prediction):
                         style={
                             "height": "100%",
                             "font-family": "Russo One",
-                            "margin-top": "3%",
+                            "margin-top": "2%",
                             "margin-bottom": "0%",
                             "margin-left": "3%",
                         },
@@ -431,8 +433,8 @@ def get_page3_layout(gp_name, df_prediction):
                         style={
                             "flex": "50%",
                             "height": "100%",
-                            "margin-top": "3%",
-                            "margin-bottom": "3%",
+                            "margin-top": "2%",
+                            "margin-bottom": "2%",
                             "margin-left": "3%",
                             "margin-right": "3%",
                         },
@@ -444,8 +446,8 @@ def get_page3_layout(gp_name, df_prediction):
                     "align-items": "center",
                     "textAlign": "center",
                     "height": "70vh",
-                    "width": "100%",
-                    "margin-bottom": "3%",
+                    "width": "60%",
+                    "margin-bottom": "2%",
                 },
             ),
             html.Br(),

@@ -116,7 +116,7 @@ def register_page1_callbacks(app, data4app):
                         id="map_circuit",
                         config={"displayModeBar": False},
                         figure={},
-                        style={"height": "50%", "width": "100%", "margin-top": "3%"},
+                        style={"height": "50%", "width": "100%", "margin-top": "2%"},
                     ),
                     dcc.RadioItems(
                         id="map-style-radio",
