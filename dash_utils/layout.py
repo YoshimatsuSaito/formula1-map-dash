@@ -137,24 +137,30 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
             ),
             html.Div(
                 children=[
-                    html.Button("Show User Guide", id="toggle-button-strategy", n_clicks=0, 
+                    html.Button(
+                        "Show User Guide",
+                        id="toggle-button-strategy",
+                        n_clicks=0,
                         style={
                             "backgroundColor": "blue",
-                            "color": "white", 
+                            "color": "white",
                             "margin": "0%",
                             "boxShadow": "0px 8px 16px 0px rgba(0,0,0,0.2)",
                             "border": "none",
                             "cursor": "pointer",
-                        }
+                        },
                     ),
                     html.Div(
-                        id="explanation-area-strategy", 
+                        id="explanation-area-strategy",
                         style={"display": "none"},
-                    children=[
-                        dcc.Markdown("""
+                        children=[
+                            dcc.Markdown(
+                                """
                         This page allows you to calculate the fastest tire strategy options by entering various parameters.
-                        """),
-                        dcc.Markdown("""
+                        """
+                            ),
+                            dcc.Markdown(
+                                """
                         #### Required Parameters
                         - Total Laps: Total number of laps
                         - Pitloss: Time lost when entering the pit (in seconds)
@@ -163,13 +169,15 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                         
                         After inputting these parameters, you can press the "Simulate Strategy" button to reveal the optimal tire strategy for each number of pit stops. By default, we provide rough estimates for these parameters based on past data. However, these are merely guidelines, and it is recommended to overwrite them with more accurate values specific to the current race week.
                         """
-                        ),
-                        dcc.Markdown("""
+                            ),
+                            dcc.Markdown(
+                                """
                         #### How to Interpret Results
                         - The number of pit stops (1, 2, 3) will each have the fastest and next best strategies calculated (totaling 6 strategies), which are displayed in order of total lap time.
                         """
-                        )
-                    ])
+                            ),
+                        ],
+                    ),
                 ],
                 style={
                     "display": "flex",
@@ -181,7 +189,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
                     "margin-bottom": "5%",
                     "margin-right": "5%",
                     "margin-left": "5%",
-                }
+                },
             ),
             html.Div(
                 id="strategy",
@@ -477,7 +485,8 @@ def get_page3_layout(gp_name, df_prediction):
                 children=[
                     html.Div(
                         children=[
-                            dcc.Markdown("""
+                            dcc.Markdown(
+                                """
                             - Using recent data and last year's race results, we predict each driver's winning probabilities for the GP.
                             """
                             )
@@ -494,7 +503,7 @@ def get_page3_layout(gp_name, df_prediction):
                     "margin-bottom": "1%",
                     "margin-right": "5%",
                     "margin-left": "5%",
-                }
+                },
             ),
             html.Div(
                 id="prediction-result",
