@@ -23,7 +23,7 @@ def create_data(SEASON):
     """Create data for the app."""
     si = SeasonInfo(SEASON)
     latest_gp_index = si.get_latest_gp_index()
-    latest_gp_legend = si.get_gp_name()[latest_gp_index]
+    latest_gp_legend = si.get_gp_round_name()[latest_gp_index]
     df = si.get_df_all_info()
     return Data4App(si, latest_gp_index, latest_gp_legend, df)
 
@@ -40,6 +40,7 @@ def create_default_clickdata(df: pd.DataFrame, latest_gp_index: int):
                     "qualifying": df.iloc[latest_gp_index]["qualifying"],
                     "sprint": df.iloc[latest_gp_index]["sprint"],
                     "race": df.iloc[latest_gp_index]["race"],
+                    "gp_round_name": df.iloc[latest_gp_index]["gp_round_name"],
                     "gp_name": df.iloc[latest_gp_index]["gp_name"],
                     "circuit": df.iloc[latest_gp_index]["circuit_name"],
                     "url": df.iloc[latest_gp_index]["url"],

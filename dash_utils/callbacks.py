@@ -53,6 +53,7 @@ def register_page1_callbacks(app, data4app):
         qualifying = clickData["points"][0]["customdata"]["qualifying"]
         sprint = clickData["points"][0]["customdata"]["sprint"]
         race = clickData["points"][0]["customdata"]["race"]
+        gp_round_name = clickData["points"][0]["customdata"]["gp_round_name"]
         gp_name = clickData["points"][0]["customdata"]["gp_name"]
         url = clickData["points"][0]["customdata"]["url"]
         circuit = clickData["points"][0]["customdata"]["circuit"]
@@ -60,7 +61,7 @@ def register_page1_callbacks(app, data4app):
             html.Div(
                 [
                     html.Div(
-                        f"{gp_name}",
+                        f"{gp_round_name}",
                         style={"font-family": "Russo One", "height": "4%"},
                         className="data-content",
                     ),
@@ -182,8 +183,15 @@ def register_page1_callbacks(app, data4app):
             clickData = data4app.default_clickdata
 
         n_round = clickData["points"][0]["customdata"]["n_round"]
+        gp_round_name = clickData["points"][0]["customdata"]["gp_round_name"]
         gp_name = clickData["points"][0]["customdata"]["gp_name"]
-        values = {"n_round": n_round, "gp_name": gp_name}
+        wiki_url = clickData["points"][0]["customdata"]["url"]
+        values = {
+            "n_round": n_round,
+            "gp_round_name": gp_round_name,
+            "gp_name": gp_name,
+            "wiki_url": wiki_url,
+        }
         params = urllib.parse.urlencode(values)
         new_url = f"/Prediction?{params}"
         return new_url
@@ -271,26 +279,3 @@ def register_page2_callbacks(app):
                 "padding": "20px",
                 "overflow": "auto",
             }, "Hide User Guide"
-
-
-# def register_page3_callbacks(app):
-#     """Register callbacks for the page3"""
-
-#     @app.callback(
-#         Output("prediction-result", "children"),
-#         [Input("map", "clickData")],
-#     )
-#     def update_output(clickData):
-
-#         return html.Div(
-
-#             style={
-#                 "display": "flex",
-#                 "justify-content": "center",
-#                 "align-items": "center",
-#                 "textAlign": "center",
-#                 "height": "70vh",
-#                 "width": "100%",
-#                 "margin-bottom": "3%",
-#             },
-#         ),

@@ -446,7 +446,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
     )
 
 
-def get_page3_layout(gp_name, df_prediction):
+def get_page3_layout(gp_round_name, df_prediction, page_content, table_text):
     """Get the layout of page3"""
     return html.Div(
         style={
@@ -469,7 +469,7 @@ def get_page3_layout(gp_name, df_prediction):
                 },
                 children=[
                     html.H1(
-                        f"Prediction of {gp_name}",
+                        f"Prediction of {gp_round_name}",
                         className="my-title",
                         style={
                             "height": "100%",

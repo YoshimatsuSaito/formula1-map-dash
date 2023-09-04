@@ -86,9 +86,13 @@ class SeasonInfo:
         """Get round number"""
         return [x.round_no for x in self.season_info]
 
+    def get_gp_round_name(self):
+        """Get grand prix round and name"""
+        return [f"Round {x.round_no} {x.race_name}" for x in self.season_info]
+
     def get_gp_name(self):
         """Get grand prix name"""
-        return [f"Round {x.round_no} {x.race_name}" for x in self.season_info]
+        return [x.race_name for x in self.season_info]
 
     def get_url(self):
         """Get url of the season"""
@@ -290,6 +294,7 @@ class SeasonInfo:
                 "qualifying": self.get_event_time(event="qualifying"),
                 "sprint": self.get_event_time(event="sprint"),
                 "race": self.get_event_time(event="race"),
+                "gp_round_name": self.get_gp_round_name(),
                 "gp_name": self.get_gp_name(),
                 "url": self.get_url(),
                 "lat": self.get_latitude(),

@@ -8,7 +8,7 @@ from dash_utils.data import create_data
 from dash_utils.callbacks import (
     register_page1_callbacks,
     register_page2_callbacks,
-)  # , register_page3_callbacks
+)
 from modules.predictor import get_df_prediction
 
 # Set information
@@ -42,7 +42,6 @@ app.layout = html.Div(
 register_index_callback(app, fig, SEASON, df_prediction)
 register_page1_callbacks(app, data4app)
 register_page2_callbacks(app)
-# register_page3_callbacks(app)
 
 # Run the app
 if __name__ == "__main__":

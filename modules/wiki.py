@@ -50,11 +50,17 @@ class WikiSearcher:
             user_agent="My User Agent - formula1-map-dash",
         )
 
-    def create_dict_title(self, gpname, years_to_create=10):
-        """Create wikipedia page titles"""
+    def create_dict_title_past(self, gpname, years_to_create=10):
+        """Create wikipedia page titles of past races"""
         last_year = datetime.now().year - 1
         list_year = list(range(last_year, last_year - years_to_create, -1))
-        return {year: f"{year} {gpname} Grand Prix" for year in list_year}
+        return {year: f"{self.create_page_title(gpname, year)}" for year in list_year}
+
+    def create_page_title(self, gpname, year):
+        """Create wikipedia page title"""
+        if "Grand Prix" not in gpname:
+            return f"{year} {gpname} Grand Prix"
+        return f"{year} {gpname}"
 
     def check_page_exists(self, title):
         """Check existence of the title page"""
@@ -119,7 +125,7 @@ class WikiSearcher:
                 f"gpname must be one of the {DICT_CIRCUIT_GPNAME.values()}"
             )
         # Get page title to search
-        dict_title = self.create_dict_title(gpname)
+        dict_title = self.create_dict_title_past(gpname)
         # Get page title existed
         dict_title = {k: v for k, v in dict_title.items() if self.check_page_exists(v)}
         # Get page content
