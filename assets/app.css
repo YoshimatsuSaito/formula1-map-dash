@@ -7,11 +7,19 @@
 /* Mobile devices (width under 767px) */
 @media only screen and (max-width: 767px) {
     .my-title {
-        font-size: 20px;  /* Change this value to what works for you */
+        font-size: 20px;
     }
     .data-content {
-        font-size: 14px;  /* Change this value to what works for you */
+        font-size: 14px;
     }
+    .prediction {
+        width: 95vw;
+    }
+    .result {
+        width: 95vw;
+        border: 2px solid #ccc;
+    }
+
 }
 
 /* Desktop devices (width over 768px) */
@@ -21,5 +29,12 @@
     }
     .data-content {
         font-size: 1vw;
+    }
+    .prediction {
+        width: 60vw;
+    }
+    .result {
+        width: 60vw;
+        border: 2px solid #ccc;
     }
 }

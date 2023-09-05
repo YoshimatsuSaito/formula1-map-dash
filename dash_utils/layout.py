@@ -12,6 +12,12 @@ from components import get_number_input
 from plotting import create_prediction_figure
 
 
+DICT_IS_PAST_MESSAGE = {
+    1: "- Please note that even after the final race, the linked page (Wikipedia) may not be updated.",
+    0: "- The final race has not yet taken place, so please check back later for the final results.",
+}
+
+
 def get_page1_layout(fig, SEASON):
     """Get the layout of page1."""
     return html.Div(
@@ -446,7 +452,7 @@ def get_page2_layout(totallap=50, pitloss=20, medium_pace=90, medium_degradation
     )
 
 
-def get_page3_layout(gp_round_name, df_prediction, page_content, table_text):
+def get_page3_layout(gp_round_name, df_prediction, wiki_url, is_past):
     """Get the layout of page3"""
     return html.Div(
         style={
@@ -465,11 +471,34 @@ def get_page3_layout(gp_round_name, df_prediction, page_content, table_text):
                     "justify-content": "center",
                     "align-items": "center",
                     "width": "100%",
-                    "height": "15vh",
+                    "height": "10vh",
                 },
                 children=[
                     html.H1(
-                        f"Prediction of {gp_round_name}",
+                        f"{gp_round_name}",
+                        className="my-title",
+                        style={
+                            "height": "100%",
+                            "font-family": "Russo One",
+                            "margin-top": "0%",
+                            "margin-bottom": "0%",
+                            "margin-left": "3%",
+                        },
+                    ),
+                ],
+            ),
+            html.Br(),
+            html.Div(
+                style={
+                    "display": "flex",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "width": "100%",
+                    "height": "auto",
+                },
+                children=[
+                    html.H2(
+                        f"Prediction",
                         className="my-title",
                         style={
                             "height": "100%",
@@ -483,14 +512,8 @@ def get_page3_layout(gp_round_name, df_prediction, page_content, table_text):
             ),
             html.Div(
                 children=[
-                    html.Div(
-                        children=[
-                            dcc.Markdown(
-                                """
-                            - Using recent data and last year's race results, we predict each driver's winning probabilities for the GP.
-                            """
-                            )
-                        ]
+                    dcc.Markdown(
+                        "- Using recent data and last year's race results, we predict each driver's winning probabilities for the GP."
                     )
                 ],
                 style={
@@ -507,6 +530,7 @@ def get_page3_layout(gp_round_name, df_prediction, page_content, table_text):
             ),
             html.Div(
                 id="prediction-result",
+                className="prediction",
                 children=[
                     dcc.Graph(
                         figure=create_prediction_figure(df_prediction),
@@ -527,10 +551,49 @@ def get_page3_layout(gp_round_name, df_prediction, page_content, table_text):
                     "align-items": "center",
                     "textAlign": "center",
                     "height": "50vh",
-                    "width": "60%",
                     "margin-bottom": "2%",
                 },
             ),
+            html.Br(),
+            html.Br(),
+            html.Br(),
+            html.Div(
+                style={
+                    "display": "flex",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "width": "100%",
+                    "height": "auto",
+                },
+                children=[
+                    html.H2(
+                        f"Results",
+                        className="my-title",
+                        style={
+                            "height": "100%",
+                            "font-family": "Russo One",
+                            "margin-top": "0%",
+                            "margin-bottom": "0%",
+                            "margin-left": "3%",
+                        },
+                    ),
+                ],
+            ),
+            html.Div(
+                children=[dcc.Markdown(DICT_IS_PAST_MESSAGE[is_past])],
+                style={
+                    "display": "flex",
+                    "flex-direction": "column",
+                    "justify-content": "center",
+                    "align-items": "center",
+                    "height": "auto",
+                    "margin-top": "1%",
+                    "margin-bottom": "1%",
+                    "margin-right": "5%",
+                    "margin-left": "5%",
+                },
+            ),
+            html.Iframe(src=wiki_url, className="result", style={"height": "80vh"}),
             html.Br(),
             html.Div(
                 style={

@@ -1,6 +1,8 @@
 import json
 import os
+import pytz
 import sys
+from datetime import datetime, timezone, timedelta
 
 import dash
 import urllib
@@ -20,6 +22,8 @@ from plotting import (
     create_prediction_figure,
 )
 from strategy_maker import optimize_strategy
+
+jst = pytz.timezone("Asia/Tokyo")
 
 
 def register_page1_callbacks(app, data4app):
@@ -54,7 +58,6 @@ def register_page1_callbacks(app, data4app):
         sprint = clickData["points"][0]["customdata"]["sprint"]
         race = clickData["points"][0]["customdata"]["race"]
         gp_round_name = clickData["points"][0]["customdata"]["gp_round_name"]
-        gp_name = clickData["points"][0]["customdata"]["gp_name"]
         url = clickData["points"][0]["customdata"]["url"]
         circuit = clickData["points"][0]["customdata"]["circuit"]
         return [
@@ -184,13 +187,24 @@ def register_page1_callbacks(app, data4app):
 
         n_round = clickData["points"][0]["customdata"]["n_round"]
         gp_round_name = clickData["points"][0]["customdata"]["gp_round_name"]
-        gp_name = clickData["points"][0]["customdata"]["gp_name"]
         wiki_url = clickData["points"][0]["customdata"]["url"]
+        race = clickData["points"][0]["customdata"]["race"]
+
+        current_time_jst = datetime.now(jst)
+        specified_time_jst = datetime.strptime(
+            f"{current_time_jst.year}/{race}", "%Y/%m/%d %H:%M"
+        )
+        specified_time_jst = jst.localize(specified_time_jst)
+        if current_time_jst > specified_time_jst:
+            is_past = 1
+        else:
+            is_past = 0
+
         values = {
             "n_round": n_round,
             "gp_round_name": gp_round_name,
-            "gp_name": gp_name,
             "wiki_url": wiki_url,
+            "is_past": is_past,
         }
         params = urllib.parse.urlencode(values)
         new_url = f"/Prediction?{params}"
