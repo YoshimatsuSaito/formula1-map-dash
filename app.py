@@ -37,6 +37,7 @@ app.layout = html.Div(
         html.Div(id="page-content"),
     ]
 )
+server = app.server
 
 # Register callback
 register_index_callback(app, fig, SEASON, df_prediction)
@@ -45,4 +46,4 @@ register_page2_callbacks(app)
 
 # Run the app
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8080, host="0.0.0.0")
+    app.run_server()
