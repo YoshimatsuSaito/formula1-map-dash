@@ -1,5 +1,11 @@
 # formula1-map-dash
 
+## Overview
+- This app is a demo designed for fans of the FIA Formula One World Championship (F1).
+- The app not only allows users to visually explore race locations and circuit layouts, but also provides the schedule for each Grand Prix session. Users can engage in strategy simulations themselves and view both race results and winning predictions made by the app.
+- The app is accessible at https://formula1-map-dash-74a62ff12fb4.herokuapp.com/.
+- Please note that the above URL may become invalid without prior notice.
+
 ## Circuit geo data source and license
 - The geodata located in the `.data/` directory has been borrowed from the [bacinger](https://github.com/bacinger/f1-circuits/tree/master/circuits). I would like to express my gratitude to the contributors.
 - The original code from which the geodata was borrowed is under the [MIT License](https://github.com/bacinger/f1-circuits/blob/master/LICENSE.md)
