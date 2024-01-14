@@ -13,7 +13,6 @@ from tqdm import tqdm
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 
-from geo import CircuitGeo
 from wiki import DICT_CIRCUIT_GPNAME, WikiSearcher
 
 my_logger = logging.getLogger("my_logger")
@@ -28,19 +27,22 @@ japan_timezone = pytz.timezone("Asia/Tokyo")
 class SeasonInfo:
     """Get information about designated season"""
 
-    def __init__(self, season):
-        self.season_info = Ergast().season(season).get_races()
+    def __init__(self, season) -> None:
         self.season = season
+        try:
+            self.season_info = Ergast().season(self.season).get_races()
+        except ValueError:
+            raise ValueError(f"Season {self.season} does not exist")
 
-    def get_circuit_id(self):
+    def get_circuit_id(self) -> list[str]:
         """Get circuit id of the season"""
         return [x.circuit.circuit_id for x in self.season_info]
 
-    def get_circuit_name(self):
+    def get_circuit_name(self) -> list[str]:
         """Get circuit name of the season"""
         return [x.circuit.circuit_name for x in self.season_info]
 
-    def get_event_time(self, event="race", timezone=japan_timezone):
+    def get_event_time(self, event="race", timezone=japan_timezone) -> list[str]:
         """Get event datetime of the season"""
         if event == "race":
             return [
@@ -82,34 +84,38 @@ class SeasonInfo:
             ]
         return None
 
-    def get_round_number(self):
+    def get_round_number(self) -> list[int]:
         """Get round number"""
         return [x.round_no for x in self.season_info]
 
-    def get_gp_round_name(self):
+    def get_gp_round_name(self) -> list[str]:
         """Get grand prix round and name"""
         return [f"Round {x.round_no} {x.race_name}" for x in self.season_info]
 
-    def get_gp_name(self):
+    def get_gp_name(self) -> list[str]:
         """Get grand prix name"""
         return [x.race_name for x in self.season_info]
 
-    def get_url(self):
+    def get_url(self) -> list[str]:
         """Get url of the season"""
         return [x.url for x in self.season_info]
 
-    def get_latitude(self):
+    def get_latitude(self) -> list[float]:
         """Get latitude of each grand prix"""
         return [x.circuit.location.latitude for x in self.season_info]
 
-    def get_longtiude(self):
+    def get_longtiude(self) -> list[float]:
         """Get longitude of each grand prix"""
         return [x.circuit.location.longitude for x in self.season_info]
 
-    def get_latest_gp_index(self, timezone=japan_timezone):
-        """Get index of latest grand prix"""
+    def get_latest_gp_index(self, timezone=japan_timezone) -> datetime.datetime:
+        """Get index of latest grand prix
+        NOTE: If all grand prix of the season was finished, return the last index
+        """
         today = datetime.now(timezone)
         list_date = [x.date.astimezone(timezone) for x in self.season_info]
+        if today > max(list_date):
+            return max(list_date)
         latest_gp_date = min(x for x in list_date if x >= today)
         return list_date.index(latest_gp_date)
 
@@ -282,7 +288,7 @@ class SeasonInfo:
                 break
         return list_lap_time
 
-    def get_df_all_info(self, read_data_for_strategy_simulator=True):
+    def get_df_all_info(self, read_data_for_strategy_simulator=True) -> pd.DataFrame:
         """Get all information"""
         df = pd.DataFrame(
             {
@@ -319,7 +325,7 @@ class SeasonInfo:
         return df
 
 
-def cvt_datetime_to_sec(datetime_value):
+def cvt_datetime_to_sec(datetime_value) -> float:
     """Convert datetime to sec"""
     return (
         datetime_value.hour * 3600
