@@ -7,15 +7,10 @@ from io import BytesIO
 
 import boto3
 import pandas as pd
-
-from preprocessing_pipeline import (
-    retrieve_data_for_inference,
-    transform_data,
-    generate_features,
-    LIST_COL_X,
-    LIST_COL_y,
-    LIST_COL_IDENTIFIER,
-)
+from preprocessing_pipeline import (LIST_COL_IDENTIFIER, LIST_COL_X,
+                                    LIST_COL_y, generate_features,
+                                    retrieve_data_for_inference,
+                                    transform_data)
 
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
 CURRENT_SEASON = 2023

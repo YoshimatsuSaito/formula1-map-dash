@@ -2,15 +2,13 @@ import os
 import sys
 
 import numpy as np
-from plotly import graph_objects as go
 from dotenv import load_dotenv
-
+from plotly import graph_objects as go
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 
 from geo import CircuitGeo
-
 
 load_dotenv(".env")
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")

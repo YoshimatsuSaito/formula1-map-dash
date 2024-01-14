@@ -11,7 +11,6 @@ sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 from components import get_number_input
 from plotting import create_prediction_figure
 
-
 DICT_IS_PAST_MESSAGE = {
     1: "- Please note that even after the final race, the linked page (Wikipedia) may not be updated.",
     0: "- The final race has not yet taken place, so please check back later for the final results.",
