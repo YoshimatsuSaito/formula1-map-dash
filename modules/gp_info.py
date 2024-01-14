@@ -1,12 +1,12 @@
-import os
-import pytz
-import sys
 import logging
+import os
+import sys
 from datetime import datetime
-from ergast_py import Ergast
 
 import numpy as np
 import pandas as pd
+import pytz
+from ergast_py import Ergast
 from sklearn.linear_model import LinearRegression
 from tqdm import tqdm
 
@@ -108,14 +108,14 @@ class SeasonInfo:
         """Get longitude of each grand prix"""
         return [x.circuit.location.longitude for x in self.season_info]
 
-    def get_latest_gp_index(self, timezone=japan_timezone) -> datetime.datetime:
+    def get_latest_gp_index(self, timezone=japan_timezone) -> int:
         """Get index of latest grand prix
         NOTE: If all grand prix of the season was finished, return the last index
         """
         today = datetime.now(timezone)
         list_date = [x.date.astimezone(timezone) for x in self.season_info]
         if today > max(list_date):
-            return max(list_date)
+            return list_date.index(max(list_date))
         latest_gp_date = min(x for x in list_date if x >= today)
         return list_date.index(latest_gp_date)
 
