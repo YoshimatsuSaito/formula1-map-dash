@@ -6,7 +6,6 @@ import pandas as pd
 from ergast_py import Ergast
 from tqdm import tqdm
 
-
 LIST_COL_X = [
     "recent_position",
     "recent_race_diff_sec",

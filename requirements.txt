@@ -1,8 +1,10 @@
+black
 boto3
 dash
 dash-bootstrap-components
 ergast-py
 gunicorn
+isort
 lightgbm
 openai
 jupyter-dash

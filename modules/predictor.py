@@ -1,13 +1,11 @@
 import os
 import pickle
 import sys
-from io import BytesIO
 
 import boto3
 import pandas as pd
 from dotenv import load_dotenv
 from ergast_py import Ergast
-from lightgbm import LGBMClassifier
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
