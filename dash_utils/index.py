@@ -1,9 +1,7 @@
-import json
 import os
 import sys
 import urllib
 
-from dash import dcc, html
 from dash.dependencies import Input, Output
 
 current_dir = os.path.dirname(os.path.abspath(__file__))

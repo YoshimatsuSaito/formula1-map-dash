@@ -3,7 +3,6 @@ import sys
 
 import dash_bootstrap_components as dbc
 from dash import dcc, html
-from dash.dependencies import Input, Output
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))

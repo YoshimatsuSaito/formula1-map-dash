@@ -1,4 +1,4 @@
-from dash import dcc, html
+from dash import dcc
 
 
 def get_number_input(id, value=0, step=0.001):

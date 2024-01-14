@@ -1,22 +1,17 @@
-import json
 import os
 import sys
 import urllib
-from datetime import datetime, timedelta, timezone
 
-import dash
 import pytz
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
-from dash.exceptions import PreventUpdate
 from plotly import graph_objects as go
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "dash_utils"))
 sys.path.append(os.path.join(os.path.dirname(current_dir), "modules"))
 
-from plotting import (create_circuit_figure, create_main_figure,
-                      create_prediction_figure, create_strategy_figure)
+from plotting import create_circuit_figure, create_strategy_figure
 from strategy_maker import optimize_strategy
 
 jst = pytz.timezone("Asia/Tokyo")
